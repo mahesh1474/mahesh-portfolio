@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mahesh | Technology Analyst &amp; QA Automation</title>
+
+    <!-- ═══ EXTERNAL LIBRARIES ═══ -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+    <!-- ═══ YOUR STYLESHEET ═══ -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Apply saved theme before paint (prevents flash) -->
+    <script>
+      (function () {
+        if (localStorage.getItem("theme") === "light")
+          document.documentElement.classList.add("light-theme");
+      })();
+    </script>
+  </head>
+  <body>
+
+    <!-- ═══════════════════════════════════════════════
+     ANIMATED BACKGROUND
+    ═══════════════════════════════════════════════ -->
+    <div class="bg-canvas" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     PAGE LOADER
+    ═══════════════════════════════════════════════ -->
+    <div id="pageLoader">
+      <div class="loader-inner">
+        <div class="loader-ring"></div>
+        <h2>Mahesh</h2>
+        <p>Technology Analyst</p>
+      </div>
+    </div>
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="progressBar"></div>
+
+    <!-- ═══════════════════════════════════════════════
+     NAVBAR
+    ═══════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <!-- Hamburger — mobile/tablet only -->
+        <button class="custom-toggler d-lg-none" type="button" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- Brand -->
+        <a class="navbar-brand ms-2 ms-lg-0" href="#">Mahesh<span>.</span></a>
+
+        <!-- Nav links -->
+        <div class="navbar-collapse d-lg-flex" id="navMenu">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+            <li class="nav-item"><a class="nav-link" href="#work">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#certifications">Certs</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <!-- Theme toggle -->
+            <li class="nav-item ms-lg-3 mt-lg-0 mt-3">
+              <div class="theme-switch" title="Toggle light / dark">
+                <input type="checkbox" id="themeToggle" aria-label="Toggle theme" />
+                <label class="ts-track" for="themeToggle">
+                  <i class="fa-solid fa-sun ts-sun"></i>
+                  <i class="fa-solid fa-moon ts-moon"></i>
+                  <span class="ts-thumb"></span>
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="mobile-overlay"></div>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 1 — HERO
+    ═══════════════════════════════════════════════ -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Right: Profile Image (shown first on mobile via order) -->
+          <div class="col-lg-6 order-1 order-lg-2 text-center d-flex justify-content-center mb-4 mb-lg-0">
+            <div class="hero-img-wrap">
+              <div class="flip-card">
+                <!--
+                  IMAGE PLACEHOLDER:
+                  Front — replace src with your real photo: assets/images/mahesh.png
+                  Back  — replace src with your cartoon/avatar: assets/images/cartoon.png
+                -->
+                <div class="flip-front">
+                  <img
+                    src="assets/images/mahesh.png"
+                    alt="Mahesh — Profile Photo"
+                    onerror="this.src='https://via.placeholder.com/320x320/192033/4f8ef7?text=Mahesh'"
+                  />
+                </div>
+                <div class="flip-back">
+                  <img
+                    src="assets/images/cartoon.png"
+                    alt="Mahesh — Cartoon Avatar"
+                    onerror="this.src='https://via.placeholder.com/320x320/192033/f472b6?text=QA+Dev'"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Left: Text -->
+          <div class="col-lg-6 order-2 order-lg-1">
+            <div class="hero-badge">
+              <span class="pulse-dot"></span> Open to Opportunities
+            </div>
+            <h1>
+              Hello, I'm
+              <span class="name">Mahesh</span>
+            </h1>
+            <p class="hero-subtitle"><span id="typing"></span></p>
+            <p class="hero-desc">
+              Technology Analyst with
+              <strong style="color: var(--primary)">4+ years</strong> of
+              enterprise QA Automation expertise. Specialized in Selenium,
+              Playwright &amp; scalable frameworks for banking mortgage
+              applications at
+              <strong style="color: var(--primary)">Infosys</strong>.
+            </p>
+
+            <div class="hero-btns">
+              <!-- Replace href with your actual resume PDF path -->
+              <a href="assets/resume/Mahesh_Resume.pdf" download class="btn-primary-c">
+                <i class="fa-solid fa-file-arrow-down"></i> Download Resume
+              </a>
+              <a href="#contact" class="btn-outline-c">
+                <i class="fa-solid fa-handshake"></i> Hire Me
+              </a>
+              <a
+                href="https://wa.me/919640200490?text=Hi%20Mahesh,%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20connect."
+                target="_blank"
+                class="btn-whatsapp-c"
+              >
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+
+            <div class="social-row justify-content-lg-start justify-content-center">
+              <!-- Replace # with actual profile URLs -->
+              <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+
+            <div class="hero-stats justify-content-lg-start justify-content-center">
+              <div class="stat-item">
+                <span class="stat-num counter" data-target="4">0</span>
+                <span class="stat-label">Years Exp.</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-num">40%</span>
+                <span class="stat-label">Effort Reduced</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-num">35%</span>
+                <span class="stat-label">Faster Regression</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 2 — ABOUT
+    ═══════════════════════════════════════════════ -->
+    <section id="about" class="section-padding section-alt reveal" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">Who I Am</div>
+          <h2 class="section-heading">About <span class="gradient-text">Me</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="about-card" data-aos="fade-up" data-aos-delay="100">
+          <p>
+            I am a <strong>Technology Analyst with 4+ years of experience</strong>
+            specializing in enterprise-level QA Automation within the banking domain.
+            Currently working at <strong>Infosys</strong>, I design and maintain
+            scalable automation frameworks using Selenium WebDriver and Playwright.
+          </p>
+          <p>
+            I have contributed to large-scale regression testing for digital mortgage
+            applications, ensuring system stability, performance reliability, and faster
+            release cycles across complex enterprise environments — primarily for
+            <strong>Westpac Banking Corporation</strong>.
+          </p>
+          <p>
+            My expertise includes framework architecture, CI/CD integration, test
+            strategy execution, and optimizing automation efficiency to reduce manual
+            effort and improve execution speed.
+          </p>
+        </div>
+
+        <div class="highlights-grid" data-aos="fade-up" data-aos-delay="150">
+          <div class="h-box">
+            <i class="fa-solid fa-briefcase"></i>
+            <h4 class="counter" data-target="4">0</h4>
+            <p>Years Experience</p>
+          </div>
+          <div class="h-box">
+            <i class="fa-solid fa-building-columns"></i>
+            <h4>Enterprise</h4>
+            <p>Banking Domain</p>
+          </div>
+          <div class="h-box">
+            <i class="fa-solid fa-code-branch"></i>
+            <h4>CI/CD</h4>
+            <p>Integration</p>
+          </div>
+          <div class="h-box">
+            <i class="fa-solid fa-layer-group"></i>
+            <h4>Framework</h4>
+            <p>Architecture</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 3 — SKILLS
+    ═══════════════════════════════════════════════ -->
+    <section id="skills" class="section-padding" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">What I Use</div>
+          <h2 class="section-heading">Technical <span class="gradient-text">Skills</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <!-- Automation Tools -->
+        <div class="skills-group">
+          <div class="skill-group-title">Automation Tools</div>
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg"
+                  alt="Playwright"
+                  onerror="this.src='https://via.placeholder.com/40x40/192033/4f8ef7?text=PW'"
+                />
+                <p>Playwright</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg"
+                  alt="Selenium"
+                  class="selenium-logo"
+                />
+                <p>Selenium</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
+                <p>Cucumber</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman" />
+                <p>Postman</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Programming Languages -->
+        <div class="skills-group">
+          <div class="skill-group-title">Programming Languages</div>
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />
+                <p>Java</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" />
+                <p>Python</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DevOps & Build Tools -->
+        <div class="skills-group">
+          <div class="skill-group-title">DevOps &amp; Build Tools</div>
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" alt="Jenkins" />
+                <p>Jenkins</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" />
+                <p>Git</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" />
+                <p>Maven</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="skill-card">
+                <img
+                  src="https://www.vectorlogo.zone/logos/gradle/gradle-icon.svg"
+                  alt="Gradle"
+                  class="gradle-logo"
+                />
+                <p>Gradle</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 4 — EXPERIENCE
+    ═══════════════════════════════════════════════ -->
+    <section id="experience" class="section-padding section-alt" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">My Journey</div>
+          <h2 class="section-heading">Professional <span class="gradient-text">Experience</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="tl-wrap">
+          <div class="tl-line"></div>
+          <div style="position: relative">
+            <div class="tl-dot"></div>
+            <div class="exp-card" data-aos="fade-up" data-aos-delay="100">
+              <div class="exp-role">Technology Analyst</div>
+              <div class="exp-company">Infosys Pvt Ltd</div>
+              <div class="exp-client">Client: Westpac Banking Corporation</div>
+              <div class="duration-badge">
+                <i class="fa-solid fa-calendar-days"></i> March 2022 – Present
+              </div>
+
+              <div class="counters-row">
+                <div class="c-box">
+                  <h3 class="counter" data-target="4">0</h3>
+                  <p>Years Exp.</p>
+                </div>
+                <div class="c-box">
+                  <h3 class="counter" data-target="40">0</h3>
+                  <p>% Effort Saved</p>
+                </div>
+                <div class="c-box">
+                  <h3 class="counter" data-target="35">0</h3>
+                  <p>% Faster Tests</p>
+                </div>
+              </div>
+
+              <button class="expand-btn">View Projects ▼</button>
+
+              <div class="proj-details">
+                <div class="proj-inner">
+                  <h5>
+                    <i class="fa-solid fa-diagram-project me-2" style="color: var(--primary)"></i>
+                    Digital Mortgage Platform Automation
+                  </h5>
+                  <ul>
+                    <li>Designed Selenium &amp; Playwright hybrid automation framework.</li>
+                    <li>Implemented parallel execution strategy for faster runs.</li>
+                    <li>Integrated Jenkins CI/CD pipeline for nightly regression.</li>
+                  </ul>
+                </div>
+                <div class="proj-inner">
+                  <h5>
+                    <i class="fa-solid fa-rocket me-2" style="color: var(--accent)"></i>
+                    Regression Optimization Initiative
+                  </h5>
+                  <ul>
+                    <li>Reduced execution cycle time by 35%.</li>
+                    <li>Refactored framework architecture for long-term maintainability.</li>
+                    <li>Improved reporting using custom test listeners &amp; Allure reports.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="tech-tags">
+                <span class="tech-tag">Selenium</span>
+                <span class="tech-tag">Playwright</span>
+                <span class="tech-tag">Java</span>
+                <span class="tech-tag">Cucumber</span>
+                <span class="tech-tag">TestNG</span>
+                <span class="tech-tag">Jenkins</span>
+                <span class="tech-tag">Git</span>
+                <span class="tech-tag">Maven</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 5 — WORK SAMPLES / PROJECTS
+    ═══════════════════════════════════════════════ -->
+    <section id="work" class="section-padding" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">Automation Implementations</div>
+          <h2 class="section-heading">Work <span class="gradient-text">Samples</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Project 1 -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
+            <div class="work-card">
+              <h5>Selenium Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Maven)</span></h5>
+              <p>Enterprise-grade Selenium automation framework integrated with Cucumber BDD and Maven build lifecycle management for banking regression suites.</p>
+              <div class="tech-icons">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg" alt="Selenium" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
+              </div>
+              <!-- Replace # with your Bitbucket / GitHub URL -->
+              <a href="#" target="_blank" class="work-btn">
+                <i class="fa-brands fa-bitbucket"></i> View Repository
+                <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="work-card">
+              <h5>Playwright Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Maven)</span></h5>
+              <p>Modern Playwright-based automation framework with Cucumber BDD supporting scalable, parallel, and cross-browser test execution.</p>
+              <div class="tech-icons">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg"
+                  alt="Playwright"
+                  onerror="this.src='https://via.placeholder.com/30x30/192033/4f8ef7?text=PW'"
+                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
+              </div>
+              <a href="#" target="_blank" class="work-btn">
+                <i class="fa-brands fa-bitbucket"></i> View Repository
+                <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
+            <div class="work-card">
+              <h5>Selenium Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Gradle)</span></h5>
+              <p>Robust Selenium automation solution structured with Gradle build configuration and a maintainable BDD-driven test design pattern.</p>
+              <div class="tech-icons">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/selenium/selenium-original.svg" alt="Selenium" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />
+                <img src="https://www.vectorlogo.zone/logos/gradle/gradle-icon.svg" alt="Gradle" class="gradle-logo" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
+              </div>
+              <a href="#" target="_blank" class="work-btn">
+                <i class="fa-brands fa-bitbucket"></i> View Repository
+                <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="work-card">
+              <h5>Playwright Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Gradle)</span></h5>
+              <p>Scalable Playwright automation architecture using Gradle with modular, reusable, and maintainable BDD implementation.</p>
+              <div class="tech-icons">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg"
+                  alt="Playwright"
+                  onerror="this.src='https://via.placeholder.com/30x30/192033/4f8ef7?text=PW'"
+                />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />
+                <img src="https://www.vectorlogo.zone/logos/gradle/gradle-icon.svg" alt="Gradle" class="gradle-logo" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
+              </div>
+              <a href="#" target="_blank" class="work-btn">
+                <i class="fa-brands fa-bitbucket"></i> View Repository
+                <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 6 — ACHIEVEMENTS
+    ═══════════════════════════════════════════════ -->
+    <section id="achievements" class="section-padding section-alt" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">Impact &amp; Results</div>
+          <h2 class="section-heading">Key <span class="gradient-text">Achievements</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="achieve-grid">
+          <div class="achieve-card" data-aos="zoom-in" data-aos-delay="50">
+            <div class="achieve-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h4>40%</h4>
+            <h5>Manual Effort Reduced</h5>
+            <p>Automated repetitive regression tasks, freeing QA bandwidth for exploratory testing.</p>
+          </div>
+          <div class="achieve-card" data-aos="zoom-in" data-aos-delay="100">
+            <div class="achieve-icon"><i class="fa-solid fa-bolt"></i></div>
+            <h4>35%</h4>
+            <h5>Faster Test Execution</h5>
+            <p>Parallel execution strategy slashed full regression cycle time significantly.</p>
+          </div>
+          <div class="achieve-card" data-aos="zoom-in" data-aos-delay="150">
+            <div class="achieve-icon"><i class="fa-solid fa-bug-slash"></i></div>
+            <h4>500+</h4>
+            <h5>Test Cases Automated</h5>
+            <p>Built and maintained a comprehensive test suite covering critical banking workflows.</p>
+          </div>
+          <div class="achieve-card" data-aos="zoom-in" data-aos-delay="200">
+            <div class="achieve-icon"><i class="fa-solid fa-code-branch"></i></div>
+            <h4>3</h4>
+            <h5>Frameworks Architected</h5>
+            <p>Designed Selenium, Playwright, and hybrid frameworks from the ground up.</p>
+          </div>
+          <div class="achieve-card" data-aos="zoom-in" data-aos-delay="250">
+            <div class="achieve-icon"><i class="fa-solid fa-server"></i></div>
+            <h4>99%</h4>
+            <h5>Pipeline Reliability</h5>
+            <p>Jenkins CI/CD nightly runs maintained with near-zero flakiness through smart waits.</p>
+          </div>
+          <div class="achieve-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="achieve-icon"><i class="fa-solid fa-star"></i></div>
+            <h4>4+</h4>
+            <h5>Years Enterprise QA</h5>
+            <p>Delivered quality assurance for mission-critical banking mortgage platforms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 7 — CERTIFICATIONS
+    ═══════════════════════════════════════════════ -->
+    <section id="certifications" class="section-padding" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">Credentials</div>
+          <h2 class="section-heading">Certifications &amp; <span class="gradient-text">Courses</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="50">
+            <div class="cert-card">
+              <div class="cert-icon"><i class="fa-solid fa-award"></i></div>
+              <h5>Selenium WebDriver with Java</h5>
+              <div class="cert-issuer">Udemy</div>
+              <span class="cert-year"><i class="fa-regular fa-calendar"></i> 2022</span>
+              <!--
+                IMAGE PLACEHOLDER: Replace below div with your cert image:
+                <img src="assets/certs/selenium-cert.png" alt="Selenium Certificate" style="width:100%;border-radius:10px;margin-top:14px;" />
+              -->
+              <div class="cert-img-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <span>Add certificate image here</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="cert-card">
+              <div class="cert-icon"><i class="fa-solid fa-certificate"></i></div>
+              <h5>Playwright Automation Testing</h5>
+              <div class="cert-issuer">Udemy</div>
+              <span class="cert-year"><i class="fa-regular fa-calendar"></i> 2023</span>
+              <div class="cert-img-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <span>Add certificate image here</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
+            <div class="cert-card">
+              <div class="cert-icon"><i class="fa-solid fa-medal"></i></div>
+              <h5>ISTQB Foundation Level</h5>
+              <div class="cert-issuer">ISTQB</div>
+              <span class="cert-year"><i class="fa-regular fa-calendar"></i> 2022</span>
+              <div class="cert-img-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <span>Add certificate image here</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="cert-card">
+              <div class="cert-icon"><i class="fa-brands fa-jenkins"></i></div>
+              <h5>Jenkins &amp; CI/CD Pipelines</h5>
+              <div class="cert-issuer">LinkedIn Learning</div>
+              <span class="cert-year"><i class="fa-regular fa-calendar"></i> 2023</span>
+              <div class="cert-img-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <span>Add certificate image here</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+            <div class="cert-card">
+              <div class="cert-icon"><i class="fa-solid fa-gear"></i></div>
+              <h5>API Testing with Postman</h5>
+              <div class="cert-issuer">Postman Academy</div>
+              <span class="cert-year"><i class="fa-regular fa-calendar"></i> 2023</span>
+              <div class="cert-img-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <span>Add certificate image here</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="cert-card">
+              <div class="cert-icon"><i class="fa-brands fa-java"></i></div>
+              <h5>Core Java for Automation</h5>
+              <div class="cert-issuer">Infosys Lex</div>
+              <span class="cert-year"><i class="fa-regular fa-calendar"></i> 2022</span>
+              <div class="cert-img-placeholder">
+                <i class="fa-regular fa-image"></i>
+                <span>Add certificate image here</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 8 — CONTACT
+    ═══════════════════════════════════════════════ -->
+    <section id="contact" class="section-padding section-alt" data-aos="fade-up">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">Get In Touch</div>
+          <h2 class="section-heading">Contact <span class="gradient-text">Me</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="row g-4 align-items-stretch">
+          <!-- Contact form -->
+          <div class="col-lg-7" data-aos="fade-right" data-aos-delay="100">
+            <div class="contact-wrap">
+              <h5>
+                <i class="fa-solid fa-paper-plane me-2" style="color: var(--primary)"></i>
+                Send Me a Message
+              </h5>
+              <form id="contactForm">
+                <div class="form-group">
+                  <input type="text" id="name" placeholder=" " required />
+                  <label for="name">Full Name</label>
+                </div>
+                <div class="form-group">
+                  <input type="email" id="email" placeholder=" " required />
+                  <label for="email">Email Address</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="subject" placeholder=" " />
+                  <label for="subject">Subject (optional)</label>
+                </div>
+                <div class="form-group">
+                  <textarea id="message" rows="5" placeholder=" " required></textarea>
+                  <label for="message">Your Message</label>
+                </div>
+                <button type="submit" class="send-btn">
+                  <i class="fa-solid fa-paper-plane"></i> Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Info panel -->
+          <div class="col-lg-5" data-aos="fade-left" data-aos-delay="150">
+            <div class="info-card h-100">
+              <h5>Contact Information</h5>
+              <p class="sub">Open for QA Automation, Framework Architecture, and Technology Analyst roles.</p>
+
+              <!-- Replace with your real details -->
+              <div class="info-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>yourmail@gmail.com</span>
+              </div>
+              <div class="info-item">
+                <i class="fa-solid fa-phone"></i>
+                <span>+91 9640200490</span>
+              </div>
+              <div class="info-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Hyderabad, India</span>
+              </div>
+
+              <div class="avail-badge">
+                <span class="pulse-dot"></span> Available for new opportunities
+              </div>
+
+              <div class="contact-social-links mt-4">
+                <a href="#" title="LinkedIn" target="_blank">
+                  <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a>
+                <a href="#" title="GitHub" target="_blank">
+                  <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://wa.me/919640200490" title="WhatsApp" target="_blank">
+                  <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+              </div>
+
+              <div class="quote-box">
+                <p>
+                  <i class="fa-solid fa-quote-left me-1" style="color: var(--primary)"></i>
+                  Quality is not an act, it is a habit — and I bring that habit to every test suite I build.
+                  <i class="fa-solid fa-quote-right ms-1" style="color: var(--primary)"></i>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     FOOTER
+    ═══════════════════════════════════════════════ -->
+    <footer class="pro-footer">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-12">
+            <div class="footer-brand">Mahesh<span>.</span></div>
+            <div class="footer-tagline">Technology Analyst · QA Automation Engineer</div>
+            <p class="footer-desc">
+              Designing scalable automation frameworks and delivering enterprise-grade
+              testing solutions for modern banking platforms.
+            </p>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <h6 class="footer-heading">Quick Links</h6>
+            <ul class="footer-links">
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#work">Work Samples</a></li>
+              <li><a href="#certifications">Certifications</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <h6 class="footer-heading">Connect</h6>
+            <div class="footer-contact">
+              <!-- Replace with real details -->
+              <p><i class="fa-solid fa-envelope"></i>yourmail@gmail.com</p>
+              <p><i class="fa-solid fa-phone"></i>+91 9640200490</p>
+              <p><i class="fa-solid fa-location-dot"></i>Hyderabad, India</p>
+            </div>
+            <div class="footer-social">
+              <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://wa.me/919640200490" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <a href="assets/resume/Mahesh_Resume.pdf" class="footer-resume-btn" download>
+              <i class="fa-solid fa-download"></i> Download Resume
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 <span>Mahesh</span>. All Rights Reserved. Crafted with <span>♥</span>
+      </div>
+    </footer>
+
+    <!-- Scroll-to-top -->
+    <button id="scrollTopBtn" title="Back to top" style="display: none">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- ═══════════════════════════════════════════════
+     SCRIPTS
+    ═══════════════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <!-- ═══ YOUR SCRIPT ═══ -->
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

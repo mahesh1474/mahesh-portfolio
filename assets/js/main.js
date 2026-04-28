@@ -141,36 +141,100 @@ themeToggle?.addEventListener("change", function () {
 });
 
 /* ─────────────────────────────────────────────
-   CONTACT FORM — validation + success toast
+   EMAILJS CONFIG — Replace these 3 values!
+   Step 1: Sign up at https://www.emailjs.com
+   Step 2: Add Gmail service → copy Service ID
+   Step 3: Create email template → copy Template ID
+   Step 4: Account → API Keys → copy Public Key
 ───────────────────────────────────────────── */
-document.getElementById("contactForm")?.addEventListener("submit", (e) => {
+const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";    // ← replace
+const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";    // ← replace
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";   // ← replace
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+/* ─────────────────────────────────────────────
+   CONTACT FORM — EmailJS real mail sender
+───────────────────────────────────────────── */
+document.getElementById("contactForm")?.addEventListener("submit", function (e) {
   e.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value;
-  const msg = document.getElementById("message").value.trim();
+
+  const name    = document.getElementById("name").value.trim();
+  const email   = document.getElementById("email").value.trim();
+  const subject = document.getElementById("subject").value.trim();
+  const msg     = document.getElementById("message").value.trim();
   const emailRe = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
-  if (!name || !emailRe.test(email) || msg.length < 10) return;
+  // Basic validation
+  if (!name || !emailRe.test(email) || msg.length < 10) {
+    showFormMsg("error", "Please fill all required fields correctly.");
+    return;
+  }
 
-  const toast = document.createElement("div");
-  toast.style.cssText = [
-    "color:var(--green)",
+  // Disable button & show sending state
+  const btn = this.querySelector(".send-btn");
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+  // EmailJS template params — matches your template variables
+  const templateParams = {
+    from_name  : name,
+    from_email : email,
+    subject    : subject || "Portfolio Contact",
+    message    : msg,
+    reply_to   : email,
+  };
+
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(() => {
+      // Success
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
+      showFormMsg("success", "Message sent! I'll get back to you soon. 🎉");
+      e.target.reset();
+    })
+    .catch((err) => {
+      // Error
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
+      showFormMsg("error", "Oops! Something went wrong. Please try WhatsApp.");
+      console.error("EmailJS error:", err);
+    });
+});
+
+/* Helper — show form status message */
+function showFormMsg(type, text) {
+  // Remove any existing message
+  const existing = document.getElementById("formMsg");
+  if (existing) existing.remove();
+
+  const msg = document.createElement("div");
+  msg.id = "formMsg";
+  const isSuccess = type === "success";
+  msg.style.cssText = [
+    "margin-top:14px",
+    "padding:12px 16px",
+    "border-radius:10px",
     "font-size:0.85rem",
     "font-weight:500",
-    "margin-top:14px",
     "display:flex",
     "align-items:center",
     "gap:8px",
+    isSuccess
+      ? "color:var(--green);background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25)"
+      : "color:#f87171;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25)",
   ].join(";");
-  toast.innerHTML =
-    '<i class="fa-solid fa-circle-check"></i> Message sent successfully!';
-  e.target.appendChild(toast);
-  setTimeout(() => toast.remove(), 3500);
-  e.target.reset();
-});
+  msg.innerHTML = isSuccess
+    ? '<i class="fa-solid fa-circle-check"></i> ' + text
+    : '<i class="fa-solid fa-circle-xmark"></i> ' + text;
+
+  document.getElementById("contactForm").appendChild(msg);
+  setTimeout(() => msg.remove(), 5000);
+}
 
 /* ─────────────────────────────────────────────
-   MOBILE SIDEBAR — open / close / overlay
+   MOBILE SIDEBAR — open / close / overlay / swipe fix
 ───────────────────────────────────────────── */
 const navMenu = document.getElementById("navMenu");
 const toggler = document.querySelector(".custom-toggler");
@@ -180,13 +244,16 @@ function openNav() {
   navMenu.classList.add("show");
   toggler.classList.add("active");
   overlay.classList.add("active");
+  // Lock body scroll but keep sidebar scrollable
   document.body.style.overflow = "hidden";
+  document.body.style.touchAction = "none";
 }
 function closeNav() {
   navMenu.classList.remove("show");
   toggler.classList.remove("active");
   overlay.classList.remove("active");
   document.body.style.overflow = "";
+  document.body.style.touchAction = "";
 }
 
 toggler?.addEventListener("click", () =>
@@ -194,12 +261,56 @@ toggler?.addEventListener("click", () =>
 );
 overlay?.addEventListener("click", closeNav);
 
+// Close sidebar on nav link click (mobile)
 document.querySelectorAll(".nav-link").forEach((l) =>
   l.addEventListener("click", () => {
     if (window.innerWidth < 992) closeNav();
   })
 );
 
+// Close on resize to desktop
 window.addEventListener("resize", () => {
   if (window.innerWidth >= 992) closeNav();
 });
+
+// ── SWIPE-TO-CLOSE: right-swipe closes sidebar; prevent horizontal page scroll ──
+let touchStartX = 0;
+let touchStartY = 0;
+let isSidebarSwipe = false;
+
+document.addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  isSidebarSwipe = false;
+}, { passive: true });
+
+document.addEventListener("touchmove", (e) => {
+  if (!navMenu.classList.contains("show")) return;
+
+  const dx = e.touches[0].clientX - touchStartX;
+  const dy = e.touches[0].clientY - touchStartY;
+
+  // If sidebar is open — block ALL horizontal swipe on the page body
+  // Only allow vertical scroll inside the sidebar itself
+  const insideSidebar = navMenu.contains(e.target);
+
+  if (insideSidebar) {
+    // Allow vertical scroll inside sidebar, block horizontal
+    if (Math.abs(dx) > Math.abs(dy)) {
+      e.preventDefault();
+    }
+  } else {
+    // Outside sidebar — block everything (overlay area)
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.addEventListener("touchend", (e) => {
+  if (!navMenu.classList.contains("show")) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  // Right swipe > 60px and mostly horizontal → close sidebar
+  if (dx > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+    closeNav();
+  }
+}, { passive: true });

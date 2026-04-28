@@ -72,6 +72,7 @@ body {
   background: var(--bg);
   color: var(--text-primary);
   overflow-x: hidden;
+  max-width: 100vw;
   line-height: 1.7;
   transition: background 0.4s ease, color 0.4s ease;
 }
@@ -279,27 +280,33 @@ section, nav, footer { position: relative; z-index: 1; }
 @media (max-width: 991px) {
   .navbar-collapse {
     position: fixed; top: 0; left: -100%;
-    width: 75%; max-width: 280px; height: 100vh;
-    padding: 90px 28px 40px;
+    width: 78%; max-width: 290px;
+    height: 100%; min-height: 100vh;
+    padding: 90px 28px 80px;
     background: var(--bg2); border-right: 1px solid var(--border);
     box-shadow: 8px 0 40px rgba(0, 0, 0, 0.4);
     transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2000; overflow-y: auto;
+    z-index: 2000;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .navbar-collapse.show { left: 0; }
   .navbar-nav {
     flex-direction: column !important; align-items: flex-start !important;
     gap: 0 !important; margin-left: 0 !important;
-    height: 100%; position: relative;
+    min-height: 100%; position: relative;
+    padding-bottom: 60px;
   }
   .nav-item { width: 100%; }
   .nav-link {
-    font-size: 0.95rem !important; padding: 12px 0 !important;
+    font-size: 0.95rem !important; padding: 14px 0 !important;
     border-bottom: 1px solid var(--border-soft);
     display: block; width: 100%; margin: 0 !important;
   }
   .nav-link::after { display: none; }
-  .navbar-nav .nav-item:last-child { position: absolute; bottom: 20px; left: 0; }
+  .navbar-nav .nav-item:last-child { position: absolute; bottom: 0; left: 0; width: 100%; }
   .navbar-nav .nav-item:last-child .nav-link { border-bottom: none; }
   .navbar-nav .nav-item {
     opacity: 0; transform: translateX(-14px);
@@ -366,6 +373,7 @@ section, nav, footer { position: relative; z-index: 1; }
   padding: 6px 14px; border-radius: 50px;
   font-size: 0.78rem; font-weight: 500; color: var(--primary);
   margin-bottom: 22px; animation: fadeUp 0.6s ease both;
+  position: relative;
 }
 .hero-badge .pulse-dot {
   width: 7px; height: 7px;
@@ -469,7 +477,7 @@ section, nav, footer { position: relative; z-index: 1; }
 
 /* Hero image flip */
 .hero-img-wrap {
-  perspective: 1000px; width: 320px; height: 320px;
+  perspective: 1000px; width: 420px; height: 420px;
   margin: auto; animation: fadeUp 0.8s ease 0.3s both;
 }
 .flip-card {
@@ -792,6 +800,7 @@ section, nav, footer { position: relative; z-index: 1; }
   background: var(--bg-card); border: 1px solid var(--border-soft);
   border-radius: 20px; padding: 30px; box-shadow: var(--shadow-card);
   position: relative; overflow: hidden;
+  isolation: isolate;
 }
 .info-card::before {
   content: ""; position: absolute; top: 0; right: 0;
@@ -815,6 +824,7 @@ section, nav, footer { position: relative; z-index: 1; }
   background: rgba(52, 211, 153, 0.1); color: var(--green);
   border: 1px solid rgba(52, 211, 153, 0.25);
   padding: 8px 16px; border-radius: 50px; font-size: 0.79rem; font-weight: 500; margin-top: 18px;
+  position: relative; z-index: 1;
 }
 .avail-badge .pulse-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: fadeP 2s ease infinite; }
 
@@ -906,12 +916,12 @@ section, nav, footer { position: relative; z-index: 1; }
 @media (max-width: 768px) {
   .section-padding { padding: 72px 0; }
   .hero {
-    padding-top: 70px;
+    padding-top: 86px;
     min-height: auto;
     padding-bottom: 60px;
   }
   .hero .container > .row { flex-direction: column-reverse; }
-  .hero-img-wrap { width: 220px; height: 220px; margin-top: 0; margin-bottom: 24px; }
+  .hero-img-wrap { width: 280px; height: 280px; margin-top: 0; margin-bottom: 24px; }
   .about-card { padding: 24px 18px; }
   .highlights-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .h-box { padding: 18px 12px; }
@@ -940,7 +950,7 @@ section, nav, footer { position: relative; z-index: 1; }
 @media (max-width: 576px) {
   .hero h1 { font-size: 2rem; }
   .section-heading { font-size: 1.6rem; }
-  .hero-img-wrap { width: 190px; height: 190px; }
+  .hero-img-wrap { width: 250px; height: 250px; }
   .highlights-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .h-box h4 { font-size: 0.95rem; }
   .h-box p { font-size: 0.68rem; }

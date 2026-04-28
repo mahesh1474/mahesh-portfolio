@@ -273,35 +273,32 @@ window.addEventListener("resize", () => {
   if (window.innerWidth >= 992) closeNav();
 });
 
-// ── SWIPE-TO-CLOSE: right-swipe closes sidebar; prevent horizontal page scroll ──
+// ── Issue 3 fix: Block horizontal swipe/slide completely on mobile page ──
 let touchStartX = 0;
 let touchStartY = 0;
-let isSidebarSwipe = false;
 
 document.addEventListener("touchstart", (e) => {
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
-  isSidebarSwipe = false;
 }, { passive: true });
 
 document.addEventListener("touchmove", (e) => {
-  if (!navMenu.classList.contains("show")) return;
-
   const dx = e.touches[0].clientX - touchStartX;
   const dy = e.touches[0].clientY - touchStartY;
-
-  // If sidebar is open — block ALL horizontal swipe on the page body
-  // Only allow vertical scroll inside the sidebar itself
   const insideSidebar = navMenu.contains(e.target);
 
-  if (insideSidebar) {
-    // Allow vertical scroll inside sidebar, block horizontal
-    if (Math.abs(dx) > Math.abs(dy)) {
-      e.preventDefault();
+  if (navMenu.classList.contains("show")) {
+    // Sidebar open: allow vertical scroll inside sidebar only
+    if (insideSidebar) {
+      if (Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+    } else {
+      e.preventDefault(); // block overlay area completely
     }
   } else {
-    // Outside sidebar — block everything (overlay area)
-    e.preventDefault();
+    // Sidebar closed: block any horizontal swipe on main page
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+      e.preventDefault();
+    }
   }
 }, { passive: false });
 

@@ -1,9 +1,9 @@
-/* ═══════════════════════════════════════════════════
-   main.js — Portfolio JavaScript
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   main.js — Portfolio JavaScript (All Fixes Applied)
+═══════════════════════════════════════════════ */
 
 /* ─────────────────────────────────────────────
-   AOS — scroll animations (init after DOM ready)
+   AOS — scroll animations
 ───────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", function () {
   AOS.init({ duration: 750, once: true, offset: 60 });
@@ -141,34 +141,156 @@ themeToggle?.addEventListener("change", function () {
 });
 
 /* ─────────────────────────────────────────────
+   FIX 2: MOBILE IMAGE FLIP — tap toggles flip,
+   tap again to flip back. Outside click resets.
+───────────────────────────────────────────── */
+const flipCard = document.getElementById("flipCard");
+const tapHint = document.querySelector(".tap-hint");
+let isFlipped = false;
+
+if (flipCard) {
+  flipCard.addEventListener("click", (e) => {
+    // Only handle tap/click on mobile (no hover capability)
+    if (window.matchMedia("(hover: none)").matches) {
+      e.stopPropagation();
+      isFlipped = !isFlipped;
+      flipCard.classList.toggle("flipped", isFlipped);
+      // Update tap hint text
+      if (tapHint) {
+        tapHint.innerHTML = isFlipped
+          ? '<i class="fa-solid fa-hand-pointer"></i> Tap to flip back'
+          : '<i class="fa-solid fa-hand-pointer"></i> Tap to flip';
+      }
+    }
+  });
+}
+
+/* ─────────────────────────────────────────────
    EMAILJS CONFIG — Replace these 3 values!
    Step 1: Sign up at https://www.emailjs.com
    Step 2: Add Gmail service → copy Service ID
    Step 3: Create email template → copy Template ID
    Step 4: Account → API Keys → copy Public Key
 ───────────────────────────────────────────── */
-const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";    // ← replace
-const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";    // ← replace
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";   // ← replace
+const EMAILJS_PUBLIC_KEY  = "YfNbrehdyBUjv5iZZ";
+const EMAILJS_SERVICE_ID  = "service_z70q1gg";
+const EMAILJS_TEMPLATE_ID = "template_51vvyol";
 
 // Initialize EmailJS
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
 /* ─────────────────────────────────────────────
-   CONTACT FORM — EmailJS real mail sender
+   FIX 4: CONTACT FORM — Friendly real-time
+   validation + EmailJS sender
 ───────────────────────────────────────────── */
+
+const nameInput    = document.getElementById("name");
+const emailInput   = document.getElementById("email");
+const msgTextarea  = document.getElementById("message");
+const charCount    = document.getElementById("charCount");
+const nameErr      = document.getElementById("nameErr");
+const emailErr     = document.getElementById("emailErr");
+const msgErr       = document.getElementById("msgErr");
+
+const emailRe = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+
+/* ── Validation helpers ── */
+function showFieldError(errEl, inputEl, msg) {
+  if (errEl) {
+    errEl.textContent = msg;
+    errEl.classList.add("show");
+  }
+  if (inputEl) {
+    inputEl.classList.remove("valid");
+    inputEl.classList.add("error");
+  }
+}
+function clearFieldError(errEl, inputEl) {
+  if (errEl) {
+    errEl.textContent = "";
+    errEl.classList.remove("show");
+  }
+  if (inputEl) inputEl.classList.remove("error");
+}
+function markValid(inputEl) {
+  if (inputEl) {
+    inputEl.classList.remove("error");
+    inputEl.classList.add("valid");
+  }
+}
+
+/* ── Real-time: Name ── */
+nameInput?.addEventListener("input", () => {
+  const val = nameInput.value.trim();
+  if (!val) {
+    showFieldError(nameErr, nameInput, "Please enter your full name.");
+  } else if (val.length < 2) {
+    showFieldError(nameErr, nameInput, "Name must be at least 2 characters.");
+  } else {
+    clearFieldError(nameErr, nameInput);
+    markValid(nameInput);
+  }
+});
+
+/* ── Real-time: Email ── */
+emailInput?.addEventListener("input", () => {
+  const val = emailInput.value.trim();
+  if (!val) {
+    showFieldError(emailErr, emailInput, "Please enter your email address.");
+  } else if (!emailRe.test(val)) {
+    showFieldError(emailErr, emailInput, "Please enter a valid email (e.g. you@example.com).");
+  } else {
+    clearFieldError(emailErr, emailInput);
+    markValid(emailInput);
+  }
+});
+
+/* ── Real-time: Message character count ── */
+msgTextarea?.addEventListener("input", () => {
+  const len = msgTextarea.value.trim().length;
+  if (charCount) {
+    if (len < 10) {
+      charCount.textContent = `${len} / 10 min characters`;
+      charCount.classList.remove("ok");
+      showFieldError(msgErr, msgTextarea, "Message must be at least 10 characters.");
+    } else {
+      charCount.textContent = `${len} characters — looks good!`;
+      charCount.classList.add("ok");
+      clearFieldError(msgErr, msgTextarea);
+      markValid(msgTextarea);
+    }
+  }
+});
+
+/* ── Form submit ── */
 document.getElementById("contactForm")?.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const name    = document.getElementById("name").value.trim();
-  const email   = document.getElementById("email").value.trim();
-  const subject = document.getElementById("subject").value.trim();
-  const msg     = document.getElementById("message").value.trim();
-  const emailRe = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+  const name    = nameInput?.value.trim()    || "";
+  const email   = emailInput?.value.trim()   || "";
+  const subject = document.getElementById("subject")?.value.trim() || "";
+  const msg     = msgTextarea?.value.trim()  || "";
 
-  // Basic validation
-  if (!name || !emailRe.test(email) || msg.length < 10) {
-    showFormMsg("error", "Please fill all required fields correctly.");
+  // Full validation on submit
+  let hasError = false;
+
+  if (!name || name.length < 2) {
+    showFieldError(nameErr, nameInput, "Please enter your full name (at least 2 characters).");
+    hasError = true;
+  }
+  if (!email || !emailRe.test(email)) {
+    showFieldError(emailErr, emailInput, "Please enter a valid email address (e.g. you@gmail.com).");
+    hasError = true;
+  }
+  if (msg.length < 10) {
+    showFieldError(msgErr, msgTextarea, "Message is too short — please write at least 10 characters.");
+    hasError = true;
+  }
+
+  if (hasError) {
+    // Scroll to first error
+    const firstError = document.querySelector(".form-group input.error, .form-group textarea.error");
+    if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
@@ -177,7 +299,7 @@ document.getElementById("contactForm")?.addEventListener("submit", function (e) 
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
-  // EmailJS template params — matches your template variables
+  // EmailJS template params
   const templateParams = {
     from_name  : name,
     from_email : email,
@@ -188,24 +310,29 @@ document.getElementById("contactForm")?.addEventListener("submit", function (e) 
 
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
     .then(() => {
-      // Success
       btn.disabled = false;
       btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
       showFormMsg("success", "Message sent! I'll get back to you soon. 🎉");
       e.target.reset();
+      // Reset visual states
+      [nameInput, emailInput, msgTextarea].forEach(el => {
+        el?.classList.remove("valid", "error");
+      });
+      if (charCount) {
+        charCount.textContent = "0 / 10 min characters";
+        charCount.classList.remove("ok");
+      }
     })
     .catch((err) => {
-      // Error
       btn.disabled = false;
       btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-      showFormMsg("error", "Oops! Something went wrong. Please try WhatsApp.");
+      showFormMsg("error", "Oops! Something went wrong. Please try WhatsApp or email directly.");
       console.error("EmailJS error:", err);
     });
 });
 
 /* Helper — show form status message */
 function showFormMsg(type, text) {
-  // Remove any existing message
   const existing = document.getElementById("formMsg");
   if (existing) existing.remove();
 
@@ -230,11 +357,11 @@ function showFormMsg(type, text) {
     : '<i class="fa-solid fa-circle-xmark"></i> ' + text;
 
   document.getElementById("contactForm").appendChild(msg);
-  setTimeout(() => msg.remove(), 5000);
+  setTimeout(() => msg?.remove(), 6000);
 }
 
 /* ─────────────────────────────────────────────
-   MOBILE SIDEBAR — open / close / overlay / swipe fix
+   MOBILE SIDEBAR — FIX 1: open/close/overlay
 ───────────────────────────────────────────── */
 const navMenu = document.getElementById("navMenu");
 const toggler = document.querySelector(".custom-toggler");
@@ -244,7 +371,6 @@ function openNav() {
   navMenu.classList.add("show");
   toggler.classList.add("active");
   overlay.classList.add("active");
-  // Lock body scroll but keep sidebar scrollable
   document.body.style.overflow = "hidden";
   document.body.style.touchAction = "none";
 }
@@ -273,7 +399,9 @@ window.addEventListener("resize", () => {
   if (window.innerWidth >= 992) closeNav();
 });
 
-// ── Issue 3 fix: Block horizontal swipe/slide completely on mobile page ──
+/* ─────────────────────────────────────────────
+   FIX 3 (Issue 3): Block horizontal swipe
+───────────────────────────────────────────── */
 let touchStartX = 0;
 let touchStartY = 0;
 
@@ -288,14 +416,12 @@ document.addEventListener("touchmove", (e) => {
   const insideSidebar = navMenu.contains(e.target);
 
   if (navMenu.classList.contains("show")) {
-    // Sidebar open: allow vertical scroll inside sidebar only
     if (insideSidebar) {
       if (Math.abs(dx) > Math.abs(dy)) e.preventDefault();
     } else {
-      e.preventDefault(); // block overlay area completely
+      e.preventDefault();
     }
   } else {
-    // Sidebar closed: block any horizontal swipe on main page
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
       e.preventDefault();
     }
@@ -306,7 +432,6 @@ document.addEventListener("touchend", (e) => {
   if (!navMenu.classList.contains("show")) return;
   const dx = e.changedTouches[0].clientX - touchStartX;
   const dy = e.changedTouches[0].clientY - touchStartY;
-  // Right swipe > 60px and mostly horizontal → close sidebar
   if (dx > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
     closeNav();
   }

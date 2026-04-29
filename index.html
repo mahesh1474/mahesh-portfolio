@@ -62,24 +62,39 @@
 
         <!-- Nav links -->
         <div class="navbar-collapse d-lg-flex" id="navMenu">
+          <!-- FIX 1: Sidebar top section with branding -->
+          <div class="sidebar-header d-lg-none">
+            <div class="sidebar-brand">Mahesh<span>.</span></div>
+            <div class="sidebar-tagline">Technology Analyst</div>
+          </div>
+
           <ul class="navbar-nav ms-auto align-items-lg-center">
             <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#work">Projects</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            <!-- Theme toggle -->
-            <li class="nav-item ms-lg-3 mt-lg-0 mt-3">
-              <div class="theme-switch" title="Toggle light / dark">
-                <input type="checkbox" id="themeToggle" aria-label="Toggle theme" />
-                <label class="ts-track" for="themeToggle">
-                  <i class="fa-solid fa-sun ts-sun"></i>
-                  <i class="fa-solid fa-moon ts-moon"></i>
-                  <span class="ts-thumb"></span>
-                </label>
-              </div>
-            </li>
           </ul>
+
+          <!-- FIX 1: Theme toggle moved to sidebar bottom (mobile) / stays in nav (desktop) -->
+          <div class="nav-theme-wrap ms-lg-3">
+            <div class="theme-switch" title="Toggle light / dark">
+              <input type="checkbox" id="themeToggle" aria-label="Toggle theme" />
+              <label class="ts-track" for="themeToggle">
+                <i class="fa-solid fa-sun ts-sun"></i>
+                <i class="fa-solid fa-moon ts-moon"></i>
+                <span class="ts-thumb"></span>
+              </label>
+            </div>
+            <span class="theme-label d-lg-none">Switch Theme</span>
+          </div>
+
+          <!-- FIX 1: Sidebar footer with social links -->
+          <div class="sidebar-footer d-lg-none">
+            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/mahesh1474" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://wa.me/919640200490" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
         </div>
       </div>
     </nav>
@@ -96,12 +111,12 @@
           <!-- Right: Profile Image (shown first on mobile via order) -->
           <div class="col-lg-6 order-1 order-lg-2 text-center d-flex justify-content-center hero-col-img mb-lg-0">
             <div class="hero-img-wrap">
-              <div class="flip-card">
-                <!--
-                  IMAGE PLACEHOLDER:
-                  Front — replace src with your real photo: assets/images/mahesh.png
-                  Back  — replace src with your cartoon/avatar: assets/images/cartoon.png
-                -->
+              <!--
+                FIX 2 & 3: Mobile image tap toggle — click to flip, click again to flip back.
+                Also increased size on mobile.
+                Front = real photo, Back = cartoon.
+              -->
+              <div class="flip-card" id="flipCard">
                 <div class="flip-front">
                   <img
                     src="assets/images/mahesh.png"
@@ -116,6 +131,10 @@
                     onerror="this.src='https://via.placeholder.com/320x320/192033/f472b6?text=QA+Dev'"
                   />
                 </div>
+              </div>
+              <!-- Tap hint for mobile -->
+              <div class="tap-hint d-lg-none">
+                <i class="fa-solid fa-hand-pointer"></i> Tap to flip
               </div>
             </div>
           </div>
@@ -140,7 +159,6 @@
             </p>
 
             <div class="hero-btns">
-              <!-- Replace href with your actual resume PDF path -->
               <a href="assets/resume/Mahesh_Resume.pdf" download class="btn-primary-c">
                 <i class="fa-solid fa-file-arrow-down"></i> Download Resume
               </a>
@@ -157,9 +175,8 @@
             </div>
 
             <div class="social-row justify-content-lg-start justify-content-center">
-              <!-- Replace # with actual profile URLs -->
               <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/mahesh1474" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
 
             <div class="hero-stats justify-content-lg-start justify-content-center">
@@ -436,7 +453,6 @@
         </div>
 
         <div class="row g-4">
-          <!-- Project 1 -->
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="50">
             <div class="work-card">
               <h5>Selenium Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Maven)</span></h5>
@@ -447,7 +463,6 @@
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" />
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
               </div>
-              <!-- Replace # with your Bitbucket / GitHub URL -->
               <a href="#" target="_blank" class="work-btn">
                 <i class="fa-brands fa-bitbucket"></i> View Repository
                 <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
@@ -455,7 +470,6 @@
             </div>
           </div>
 
-          <!-- Project 2 -->
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="work-card">
               <h5>Playwright Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Maven)</span></h5>
@@ -477,7 +491,6 @@
             </div>
           </div>
 
-          <!-- Project 3 -->
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="150">
             <div class="work-card">
               <h5>Selenium Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Gradle)</span></h5>
@@ -495,7 +508,6 @@
             </div>
           </div>
 
-          <!-- Project 4 -->
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <div class="work-card">
               <h5>Playwright Cucumber Framework <span style="color:var(--text-muted);font-weight:400">(Gradle)</span></h5>
@@ -591,22 +603,27 @@
                 <i class="fa-solid fa-paper-plane me-2" style="color: var(--primary)"></i>
                 Send Me a Message
               </h5>
-              <form id="contactForm">
+              <!-- FIX 4: Improved validation + real-time feedback -->
+              <form id="contactForm" novalidate>
                 <div class="form-group">
-                  <input type="text" id="name" placeholder=" " required />
-                  <label for="name">Full Name</label>
+                  <input type="text" id="name" placeholder=" " autocomplete="name" />
+                  <label for="name">Full Name <span class="req">*</span></label>
+                  <div class="field-error" id="nameErr"></div>
                 </div>
                 <div class="form-group">
-                  <input type="email" id="email" placeholder=" " required />
-                  <label for="email">Email Address</label>
+                  <input type="email" id="email" placeholder=" " autocomplete="email" />
+                  <label for="email">Email Address <span class="req">*</span></label>
+                  <div class="field-error" id="emailErr"></div>
                 </div>
                 <div class="form-group">
                   <input type="text" id="subject" placeholder=" " />
-                  <label for="subject">Subject (optional)</label>
+                  <label for="subject">Subject <span style="color:var(--text-muted);font-size:0.75rem">(optional)</span></label>
                 </div>
                 <div class="form-group">
-                  <textarea id="message" rows="5" placeholder=" " required></textarea>
-                  <label for="message">Your Message</label>
+                  <textarea id="message" rows="5" placeholder=" "></textarea>
+                  <label for="message">Your Message <span class="req">*</span></label>
+                  <div class="field-error" id="msgErr"></div>
+                  <div class="char-count" id="charCount">0 / 10 min characters</div>
                 </div>
                 <button type="submit" class="send-btn">
                   <i class="fa-solid fa-paper-plane"></i> Send Message
@@ -621,7 +638,6 @@
               <h5>Contact Information</h5>
               <p class="sub">Open for QA Automation, Framework Architecture, and Technology Analyst roles.</p>
 
-              <!-- Replace with your real details -->
               <div class="info-item">
                 <i class="fa-solid fa-envelope"></i>
                 <span>balamaheshkumardoupati@gmail.com</span>
@@ -665,44 +681,72 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
-     FOOTER
+     FOOTER — FIX 5: Redesigned professional footer
     ═══════════════════════════════════════════════ -->
     <footer class="pro-footer">
+      <!-- Top glow line -->
+      <div class="footer-glow-line"></div>
+
       <div class="container">
-        <div class="row g-4">
+        <div class="footer-top row g-5 align-items-start">
+
+          <!-- Brand column -->
           <div class="col-lg-4 col-md-12">
-            <div class="footer-brand">Mahesh<span>.</span></div>
-            <div class="footer-tagline">Technology Analyst · QA Automation Engineer</div>
+            <div class="footer-brand-wrap">
+              <div class="footer-brand">Mahesh<span>.</span></div>
+              <div class="footer-tagline">Technology Analyst · QA Automation Engineer</div>
+            </div>
             <p class="footer-desc">
               Designing scalable automation frameworks and delivering enterprise-grade
-              testing solutions for modern banking platforms.
+              testing solutions for modern banking platforms at Infosys.
             </p>
+            <div class="footer-social">
+              <a href="#" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://github.com/mahesh1474" title="GitHub" aria-label="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://wa.me/919640200490" target="_blank" title="WhatsApp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
           </div>
 
-          <div class="col-lg-4 col-md-6">
-            <h6 class="footer-heading">Quick Links</h6>
+          <!-- Quick links -->
+          <div class="col-lg-2 col-6">
+            <h6 class="footer-heading">Navigate</h6>
             <ul class="footer-links">
               <li><a href="#about">About</a></li>
               <li><a href="#skills">Skills</a></li>
               <li><a href="#experience">Experience</a></li>
-              <li><a href="#work">Work Samples</a></li>
-              <li><a href="#certifications">Certifications</a></li>
+              <li><a href="#work">Projects</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
 
-          <div class="col-lg-4 col-md-6">
-            <h6 class="footer-heading">Connect</h6>
+          <!-- Expertise -->
+          <div class="col-lg-3 col-6">
+            <h6 class="footer-heading">Expertise</h6>
+            <ul class="footer-links footer-expertise">
+              <li><a href="#">Selenium WebDriver</a></li>
+              <li><a href="#">Playwright</a></li>
+              <li><a href="#">Cucumber BDD</a></li>
+              <li><a href="#">Jenkins CI/CD</a></li>
+              <li><a href="#">Framework Design</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact + CTA -->
+          <div class="col-lg-3 col-md-12">
+            <h6 class="footer-heading">Get In Touch</h6>
             <div class="footer-contact">
-              <!-- Replace with real details -->
-              <p><i class="fa-solid fa-envelope"></i>balamaheshkumardoupati@gmail.com</p>
-              <p><i class="fa-solid fa-phone"></i>+91 9640200490</p>
-              <p><i class="fa-solid fa-location-dot"></i>Hyderabad, India</p>
-            </div>
-            <div class="footer-social">
-              <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-              <a href="https://wa.me/919640200490" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+              <a href="mailto:balamaheshkumardoupati@gmail.com" class="footer-contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>balamaheshkumardoupati@gmail.com</span>
+              </a>
+              <a href="tel:+919640200490" class="footer-contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <span>+91 9640200490</span>
+              </a>
+              <div class="footer-contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Hyderabad, India</span>
+              </div>
             </div>
             <a href="assets/resume/Mahesh_Resume.pdf" class="footer-resume-btn" download>
               <i class="fa-solid fa-download"></i> Download Resume
@@ -710,8 +754,16 @@
           </div>
         </div>
       </div>
+
+      <!-- Footer bottom bar -->
       <div class="footer-bottom">
-        &copy; 2026 <span>Mahesh</span>. All Rights Reserved. Crafted with <span>♥</span>
+        <div class="container">
+          <div class="footer-bottom-inner">
+            <span>&copy; 2026 <strong>Mahesh</strong>. All Rights Reserved.</span>
+            <span class="footer-crafted">Crafted with <i class="fa-solid fa-heart" style="color:var(--accent)"></i> &amp; <i class="fa-solid fa-mug-hot" style="color:var(--accent2)"></i></span>
+            <span class="footer-avail"><span class="pulse-dot"></span> Open to Work</span>
+          </div>
+        </div>
       </div>
     </footer>
 

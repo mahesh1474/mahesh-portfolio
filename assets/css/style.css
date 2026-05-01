@@ -335,6 +335,22 @@ section, nav, footer { position: relative; z-index: 1; }
   .sidebar-header, .sidebar-footer { display: none !important; }
 }
 
+/* ─── Mobile: perfectly centre the brand logo ─── */
+@media (max-width: 991px) {
+  .navbar > .container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 !important;
+  }
+}
+
 /* ─── FIX 1: Mobile sidebar redesign ─── */
 @media (max-width: 991px) {
   .navbar-collapse {

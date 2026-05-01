@@ -140,19 +140,11 @@
     ═══════════════════════════════════════════════ -->
     <section class="hero" id="home">
       <!-- Floating decorative elements -->
-      <div class="hero-deco hero-deco-1" aria-hidden="true"><i class="fa-solid fa-code"></i></div>
-      <div class="hero-deco hero-deco-2" aria-hidden="true"><i class="fa-solid fa-vial-circle-check"></i></div>
-      <div class="hero-deco hero-deco-3" aria-hidden="true"><i class="fa-brands fa-java"></i></div>
       <div class="container">
         <div class="row align-items-center">
           <!-- Right: Profile Image (shown first on mobile via order) -->
           <div class="col-lg-6 order-1 order-lg-2 text-center d-flex justify-content-center hero-col-img mb-lg-0">
             <div class="hero-img-wrap">
-              <!--
-                FIX 2 & 3: Mobile image tap toggle — click to flip, click again to flip back.
-                Also increased size on mobile.
-                Front = real photo, Back = cartoon.
-              -->
               <div class="flip-card" id="flipCard">
                 <div class="flip-front">
                   <img
@@ -169,9 +161,17 @@
                   />
                 </div>
               </div>
-              <!-- Tap hint for mobile -->
-              <div class="tap-hint d-lg-none">
-                <i class="fa-solid fa-hand-pointer"></i> Tap to flip
+
+              <!-- Floating experience badge — top right -->
+              <div class="img-exp-badge">
+                <span class="badge-num">4+</span>
+                <span class="badge-label">Years<br>Exp.</span>
+              </div>
+
+              <!-- Floating status badge — bottom left -->
+              <div class="img-status-badge">
+                <span class="pulse-dot"></span>
+                Open to Work
               </div>
             </div>
           </div>

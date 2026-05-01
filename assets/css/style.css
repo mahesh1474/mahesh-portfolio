@@ -35,28 +35,29 @@
    2. LIGHT THEME OVERRIDES
 ════════════════════════════════════════════════════════════ */
 .light-theme {
-  --primary: #2563eb;
-  --primary-light: #3b82f6;
-  --primary-glow: rgba(37, 99, 235, 0.12);
-  --accent: #db2777;
-  --accent2: #d97706;
-  --green: #059669;
+  --primary: #1d4ed8;
+  --primary-light: #2563eb;
+  --primary-glow: rgba(29, 78, 216, 0.10);
+  --accent: #be185d;
+  --accent2: #b45309;
+  --green: #047857;
 
   --bg: #ffffff;
-  --bg2: #f9fafb;
-  --bg3: #f3f4f6;
+  --bg2: #f8fafc;
+  --bg3: #f1f5f9;
   --bg-card: #ffffff;
-  --bg-card2: #f5f8ff;
+  --bg-card2: #f0f7ff;
 
-  --text-primary: #0f172a;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
+  /* Issue 2: Pure/near-pure black text throughout */
+  --text-primary: #000000;
+  --text-secondary: #111111;
+  --text-muted: #333333;
 
-  --border: rgba(37, 99, 235, 0.2);
-  --border-soft: rgba(0, 0, 0, 0.08);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.07);
-  --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.13);
-  --glow: 0 0 30px rgba(37, 99, 235, 0.2);
+  --border: rgba(29, 78, 216, 0.18);
+  --border-soft: rgba(0, 0, 0, 0.10);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.14);
+  --glow: 0 0 30px rgba(29, 78, 216, 0.18);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -241,7 +242,10 @@ section, nav, footer { position: relative; z-index: 1; }
   filter: drop-shadow(0 0 8px rgba(79,142,247,0.5));
   transform: scale(1.02);
 }
-.light-theme .nav-logo-svg text { fill: #0f172a; }
+/* Issue 1: Logo text color - works in BOTH dark and light themes */
+.logo-text-name { fill: var(--text-primary); }
+.light-theme .nav-logo-svg text { fill: #000000; }
+.light-theme .logo-text-name { fill: #000000; }
 
 /* Issue 1: Sidebar logo */
 .sidebar-brand-logo svg { width: 170px; height: auto; display: block; }
@@ -433,9 +437,10 @@ section, nav, footer { position: relative; z-index: 1; }
   background: var(--primary); border-radius: 2px;
 }
 .section-heading {
-  font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 800;
-  color: var(--text-primary); letter-spacing: -0.02em;
-  line-height: 1.15; margin-bottom: 14px;
+  font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-primary); letter-spacing: -0.03em;
+  line-height: 1.1; margin-bottom: 14px;
   position: relative; display: inline-block;
 }
 .gradient-text {
@@ -499,8 +504,9 @@ section, nav, footer { position: relative; z-index: 1; }
   animation: fadeP 2s ease infinite;
 }
 .hero h1 {
-  font-size: clamp(2.2rem, 5.5vw, 4.4rem); font-weight: 800;
-  letter-spacing: -0.03em; line-height: 1.08;
+  font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 800;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: -0.04em; line-height: 1.04;
   color: var(--text-primary); animation: fadeUp 0.7s ease 0.1s both;
 }
 .hero h1 .name {
@@ -1572,4 +1578,424 @@ section, nav, footer { position: relative; z-index: 1; }
   0%   { box-shadow: 0 0 0 0 rgba(52,211,153,0.6); }
   70%  { box-shadow: 0 0 0 8px rgba(52,211,153,0); }
   100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ISSUE 3 — MAJOR CREATIVE ENHANCEMENT OVERHAUL
+════════════════════════════════════════════════════════════ */
+
+/* ── Root: additional design tokens ── */
+:root {
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.08);
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --gradient-primary: linear-gradient(135deg, #4f8ef7, #f472b6);
+  --gradient-gold: linear-gradient(135deg, #fbbf24, #f97316);
+}
+.light-theme {
+  --glass-bg: rgba(255,255,255,0.7);
+  --glass-border: rgba(29,78,216,0.12);
+}
+
+/* ── Animated gradient border on cards (via pseudo-element) ── */
+.about-card,
+.exp-card,
+.contact-wrap,
+.info-card {
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+.about-card::after,
+.exp-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg,
+    rgba(79,142,247,0.25) 0%,
+    rgba(244,114,182,0.15) 50%,
+    rgba(79,142,247,0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.about-card:hover::after,
+.exp-card:hover::after { opacity: 1; }
+
+/* ── Glassmorphism work cards ── */
+.work-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+}
+.light-theme .work-card {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(29,78,216,0.1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+/* ── Achievement cards: bold numbered accent ── */
+.achieve-card h4 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: -0.04em;
+}
+
+/* ── Skill cards: polished badge look ── */
+.skill-card {
+  border-radius: 18px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+}
+.light-theme .skill-card {
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-color: rgba(29,78,216,0.08);
+}
+.skill-card p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+/* ── Section: diagonal background accent strips ── */
+.section-alt {
+  position: relative;
+  overflow: hidden;
+}
+.section-alt::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.section-alt::after {
+  content: "";
+  position: absolute;
+  bottom: -60px; left: -80px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244,114,182,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Tech tags: elevated pill style ── */
+.tech-tag {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.71rem;
+  letter-spacing: 0.04em;
+  border-radius: 8px;
+  padding: 5px 13px;
+  background: rgba(79,142,247,0.08);
+  border: 1px solid rgba(79,142,247,0.18);
+  color: var(--primary);
+  transition: all 0.25s;
+}
+.tech-tag:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+.light-theme .tech-tag {
+  color: var(--primary);
+  background: rgba(29,78,216,0.06);
+  border-color: rgba(29,78,216,0.15);
+}
+
+/* ── Hero badge: more distinct ── */
+.hero-badge {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── Nav link typography ── */
+.nav-link {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+}
+
+/* ── Section rule: double dot ── */
+.section-rule {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* ── Eyebrow: refined ── */
+.eyebrow {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+/* ── Stat items: larger numbers ── */
+.stat-num {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: -0.04em;
+}
+
+/* ── Counter numbers: Poppins font ── */
+.counter, .c-box h3 {
+  font-family: "Poppins", sans-serif;
+}
+
+/* ── About card: refined left bar ── */
+.about-card {
+  border-left: 3px solid var(--primary);
+  border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+}
+.light-theme .about-card {
+  background: #ffffff;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+}
+
+/* ── Highlight boxes: icon circle upgrade ── */
+.h-box i {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--primary-glow), transparent);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 1.3rem;
+  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.h-box:hover i {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: scale(1.1) rotate(-6deg);
+}
+
+/* ── Duration badge: styled more distinctly ── */
+.duration-badge {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+
+/* ── Send button: gradient upgrade ── */
+.send-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, #818cf8 100%);
+  background-size: 200% 100%;
+  transition: all 0.4s ease, background-position 0.6s ease;
+  letter-spacing: 0.03em;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+.send-btn:hover {
+  background-position: 100% 0;
+  box-shadow: 0 8px 32px rgba(79,142,247,0.45);
+}
+
+/* ── Buttons: Poppins font ── */
+.btn-primary-c, .btn-outline-c, .btn-whatsapp-c, .work-btn, .footer-resume-btn {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── Contact info items: left accent ── */
+.info-item {
+  border-left: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+.info-item:hover {
+  border-left-color: var(--primary);
+  padding-left: 18px;
+  background: var(--primary-glow);
+}
+
+/* ── Quote box: styled as blockquote ── */
+.quote-box {
+  border-left: 3px solid var(--primary);
+  background: var(--primary-glow);
+  border-radius: 0 12px 12px 0;
+}
+.quote-box p {
+  font-family: "Poppins", sans-serif;
+  font-style: italic;
+  font-size: 0.82rem;
+}
+
+/* ── Footer: brand tagline bolder ── */
+.footer-tagline {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.footer-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+.light-theme .footer-desc { color: #222222; }
+.light-theme .footer-links a { color: #222222; }
+.light-theme .footer-contact-item { color: #111111; }
+
+/* ── Expand button: pill shaped ── */
+.expand-btn {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  background: var(--primary-glow);
+  border: 1px solid var(--border);
+  padding: 8px 22px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+}
+.expand-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+/* ── Proj inner: left accent line ── */
+.proj-inner {
+  border-left: 3px solid var(--primary);
+  border-radius: 0 12px 12px 0;
+}
+.proj-inner:hover { border-left-color: var(--accent); }
+
+/* ── Light mode: navbar text ── */
+.light-theme .nav-link { color: #000000 !important; }
+.light-theme .nav-link:hover,
+.light-theme .nav-link.active { color: var(--primary) !important; }
+.light-theme .navbar-brand { color: #000000 !important; }
+
+/* ── Light mode: sidebar ── */
+.light-theme .navbar-collapse {
+  background: #ffffff;
+  border-right: 1px solid rgba(29,78,216,0.12);
+}
+.light-theme .sidebar-footer a { color: #222222; }
+.light-theme .theme-label { color: #111111; }
+
+/* ── Light mode: hero text ── */
+.light-theme .hero-subtitle { color: #222222; }
+.light-theme .hero-desc { color: #111111; }
+.light-theme .hero-badge { color: var(--primary); }
+
+/* ── Light mode: section text ── */
+.light-theme .about-card p { color: #111111; }
+.light-theme .about-card strong { color: var(--primary); }
+.light-theme .h-box p { color: #333333; }
+.light-theme .h-box h4 { color: #000000; }
+.light-theme .skill-card p { color: #000000; }
+.light-theme .exp-role { color: #000000; }
+.light-theme .exp-company { color: var(--primary); }
+.light-theme .exp-client { color: #333333; }
+.light-theme .proj-inner h5 { color: #000000; }
+.light-theme .proj-inner ul li { color: #111111; }
+.light-theme .work-card h5 { color: #000000; }
+.light-theme .work-card p { color: #111111; }
+.light-theme .achieve-card h5 { color: #000000; }
+.light-theme .achieve-card p { color: #222222; }
+.light-theme .info-item span { color: #000000; }
+.light-theme .info-card h5 { color: #000000; }
+.light-theme .info-card .sub { color: #333333; }
+.light-theme .quote-box p { color: #111111; }
+.light-theme .c-box p { color: #333333; }
+.light-theme .stat-label { color: #333333; }
+.light-theme .char-count { color: #333333; }
+.light-theme .form-group input,
+.light-theme .form-group textarea { color: #000000; background: #f8fafc; }
+.light-theme .form-group label { color: #333333; }
+.light-theme .footer-bottom-inner { color: #222222; }
+.light-theme .footer-bottom-inner strong { color: var(--primary); }
+.light-theme .skill-group-title { color: var(--primary); }
+.light-theme .eyebrow { color: var(--primary); }
+.light-theme .section-heading { color: #000000; }
+.light-theme .duration-badge { color: var(--primary); }
+.light-theme .tech-tag { color: var(--primary); }
+.light-theme .loader-tagline { color: var(--primary); }
+.light-theme .tap-hint { color: #333333; }
+.light-theme .hero-stats .stat-num { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.light-theme .contact-social-links a { color: #111111; }
+.light-theme .contact-social-links a:hover { color: var(--primary); }
+.light-theme .footer-social a { color: #222222; }
+.light-theme .avail-badge { color: var(--green); }
+.light-theme #scrollTopBtn { color: #fff; }
+.light-theme .c-box { background: #f8fafc; border-color: rgba(0,0,0,0.08); }
+.light-theme .c-box h3 { color: var(--primary); }
+
+/* ── Background canvas: light mode refinement ── */
+.light-theme .bg-canvas::before {
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 15%, rgba(29,78,216,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 90% 80%, rgba(190,24,93,0.04) 0%, transparent 50%),
+    linear-gradient(160deg, #f8fafc 0%, #eef2ff 50%, #f8fafc 100%);
+}
+
+/* ── Hero col: elegant image ring ── */
+.flip-front, .flip-back {
+  box-shadow: 0 0 0 6px var(--primary-glow), 0 24px 80px rgba(0,0,0,0.35);
+}
+.light-theme .flip-front, .light-theme .flip-back {
+  box-shadow: 0 0 0 6px rgba(29,78,216,0.12), 0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* ── Hero deco icons: light mode ── */
+.light-theme .hero-deco {
+  background: rgba(29,78,216,0.07);
+  border-color: rgba(29,78,216,0.15);
+  color: var(--primary);
+}
+
+/* ── Work button: refined ── */
+.work-btn {
+  font-size: 0.8rem;
+  border-radius: 8px;
+}
+.light-theme .work-btn { color: var(--primary); border-color: rgba(29,78,216,0.2); }
+
+/* ── Pro footer light mode ── */
+.light-theme .pro-footer {
+  background: #f1f5f9;
+  border-top-color: rgba(29,78,216,0.1);
+}
+.light-theme .footer-heading { color: #000000; }
+.light-theme .footer-avail { color: var(--green); }
+.light-theme .footer-resume-btn { color: var(--primary); }
+
+/* ── Mobile nav items in light mode ── */
+.light-theme .nav-link {
+  border-bottom-color: rgba(0,0,0,0.06) !important;
+}
+
+/* ── Scroll progress: enhanced ── */
+#progressBar {
+  transition: width 0.08s linear;
+  background: linear-gradient(90deg, var(--primary), var(--accent), #a78bfa, var(--accent2));
+  background-size: 200% 100%;
+}
+
+/* ── Gradient text: richer colors ── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, #818cf8 50%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Section padding: more breathing room ── */
+.section-padding { padding: 110px 0; }
+
+/* ── Card radius: consistent ── */
+.about-card, .exp-card, .work-card, .achieve-card, .skill-card, .contact-wrap, .info-card {
+  border-radius: var(--radius-xl);
 }

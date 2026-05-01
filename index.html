@@ -21,6 +21,9 @@
           document.documentElement.classList.add("light-theme");
       })();
     </script>
+
+    <!-- Issue 3: QA-themed Favicon as inline SVG data URI -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0f1a'/%3E%3Ccircle cx='13' cy='13' r='7' fill='none' stroke='%234f8ef7' stroke-width='2.5'/%3E%3Cline x1='18.5' y1='18.5' x2='27' y2='27' stroke='%23f472b6' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='13' cy='13' r='3' fill='%234f8ef7' opacity='0.4'/%3E%3Cline x1='10' y1='13' x2='16' y2='13' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Cline x1='13' y1='10' x2='13' y2='16' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E" />
   </head>
   <body>
 
@@ -39,8 +42,17 @@
     <div id="pageLoader">
       <div class="loader-inner">
         <div class="loader-ring"></div>
-        <h2>Mahesh</h2>
-        <p>Technology Analyst</p>
+        <div class="loader-logo">
+          <svg viewBox="0 0 180 56" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <circle cx="22" cy="22" r="13" stroke="#4f8ef7" stroke-width="2.5"/>
+            <circle cx="22" cy="22" r="6" fill="#4f8ef7" opacity="0.18"/>
+            <line x1="31.2" y1="31.2" x2="40" y2="40" stroke="#f472b6" stroke-width="2.8" stroke-linecap="round"/>
+            <polyline points="17,22 21,26 28,18" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="50" y="29" font-family="'Poppins',sans-serif" font-weight="800" font-size="22" fill="#f0f4ff" letter-spacing="-1">Mahesh</text>
+            <text x="51" y="44" font-family="'Poppins',sans-serif" font-weight="600" font-size="8.5" fill="#4f8ef7" letter-spacing="3">QA AUTOMATION</text>
+          </svg>
+        </div>
+        <p class="loader-tagline">Loading portfolio...</p>
       </div>
     </div>
 
@@ -58,14 +70,31 @@
         </button>
 
         <!-- Brand -->
-        <a class="navbar-brand ms-2 ms-lg-0" href="#">Mahesh<span>.</span></a>
+        <a class="navbar-brand ms-2 ms-lg-0" href="#" aria-label="Mahesh Portfolio">
+          <svg class="nav-logo-svg" viewBox="0 0 160 44" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <circle cx="18" cy="18" r="11" stroke="#4f8ef7" stroke-width="2"/>
+            <circle cx="18" cy="18" r="5" fill="#4f8ef7" opacity="0.2"/>
+            <line x1="25.8" y1="25.8" x2="33" y2="33" stroke="#f472b6" stroke-width="2.2" stroke-linecap="round"/>
+            <polyline points="14,18 17.5,21.5 23,15" stroke="#4f8ef7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="40" y="23" font-family="'Poppins',sans-serif" font-weight="800" font-size="17" fill="currentColor" letter-spacing="-0.5">Mahesh</text>
+            <text x="41" y="34" font-family="'Poppins',sans-serif" font-weight="600" font-size="6.5" fill="#4f8ef7" letter-spacing="2.5">QA AUTOMATION</text>
+          </svg>
+        </a>
 
         <!-- Nav links -->
         <div class="navbar-collapse d-lg-flex" id="navMenu">
-          <!-- FIX 1: Sidebar top section with branding -->
+          <!-- Sidebar top section with branding -->
           <div class="sidebar-header d-lg-none">
-            <div class="sidebar-brand">Mahesh<span>.</span></div>
-            <div class="sidebar-tagline">Technology Analyst</div>
+            <div class="sidebar-brand-logo">
+              <svg viewBox="0 0 160 48" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <circle cx="18" cy="20" r="12" stroke="#4f8ef7" stroke-width="2.2"/>
+                <circle cx="18" cy="20" r="5.5" fill="#4f8ef7" opacity="0.2"/>
+                <line x1="26.5" y1="28.5" x2="35" y2="37" stroke="#f472b6" stroke-width="2.5" stroke-linecap="round"/>
+                <polyline points="13,20 17,24 24,14" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="42" y="26" font-family="'Poppins',sans-serif" font-weight="800" font-size="18" fill="#f0f4ff" letter-spacing="-0.5">Mahesh</text>
+                <text x="43" y="38" font-family="'Poppins',sans-serif" font-weight="600" font-size="7" fill="#4f8ef7" letter-spacing="2.5">QA AUTOMATION</text>
+              </svg>
+            </div>
           </div>
 
           <ul class="navbar-nav ms-auto align-items-lg-center">
@@ -101,6 +130,10 @@
 
     <!-- Overlay for mobile sidebar -->
     <div class="mobile-overlay"></div>
+
+    <!-- Issue 5: Custom cursor (desktop only) -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
 
     <!-- ═══════════════════════════════════════════════
      SECTION 1 — HERO
@@ -468,7 +501,7 @@
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" />
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
               </div>
-              <a href="#" target="_blank" class="work-btn">
+              <a href="https://bitbucket.org/tech-stack/selenium-maven/src" target="_blank" class="work-btn">
                 <i class="fa-brands fa-bitbucket"></i> View Repository
                 <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
               </a>
@@ -490,7 +523,7 @@
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven" />
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
               </div>
-              <a href="#" target="_blank" class="work-btn">
+              <a href="https://bitbucket.org/tech-stack/playwright-maven/src" target="_blank" class="work-btn">
                 <i class="fa-brands fa-bitbucket"></i> View Repository
                 <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
               </a>
@@ -508,7 +541,7 @@
                 <img src="https://www.vectorlogo.zone/logos/gradle/gradle-icon.svg" alt="Gradle" class="gradle-logo" />
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
               </div>
-              <a href="#" target="_blank" class="work-btn">
+              <a href="https://bitbucket.org/tech-stack/selenium-gradle/src" target="_blank" class="work-btn">
                 <i class="fa-brands fa-bitbucket"></i> View Repository
                 <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
               </a>
@@ -530,7 +563,7 @@
                 <img src="https://www.vectorlogo.zone/logos/gradle/gradle-icon.svg" alt="Gradle" class="gradle-logo" />
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cucumber/cucumber-plain.svg" alt="Cucumber" />
               </div>
-              <a href="#" target="_blank" class="work-btn">
+              <a href="https://bitbucket.org/tech-stack/playwright-gradle/src" target="_blank" class="work-btn">
                 <i class="fa-brands fa-bitbucket"></i> View Repository
                 <i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i>
               </a>
@@ -701,7 +734,16 @@
           <!-- Brand column -->
           <div class="col-lg-4 col-md-12">
             <div class="footer-brand-wrap">
-              <div class="footer-brand">Mahesh<span>.</span></div>
+              <div class="footer-brand-logo">
+                <svg viewBox="0 0 180 54" xmlns="http://www.w3.org/2000/svg" fill="none">
+                  <circle cx="20" cy="20" r="13" stroke="#4f8ef7" stroke-width="2.2"/>
+                  <circle cx="20" cy="20" r="6" fill="#4f8ef7" opacity="0.18"/>
+                  <line x1="29.2" y1="29.2" x2="38" y2="38" stroke="#f472b6" stroke-width="2.5" stroke-linecap="round"/>
+                  <polyline points="15,20 19,24 26,13" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text x="46" y="27" font-family="'Poppins',sans-serif" font-weight="800" font-size="20" fill="#f0f4ff" letter-spacing="-0.5">Mahesh</text>
+                  <text x="47" y="40" font-family="'Poppins',sans-serif" font-weight="600" font-size="7.5" fill="#4f8ef7" letter-spacing="2.5">QA AUTOMATION</text>
+                </svg>
+              </div>
               <div class="footer-tagline">Technology Analyst · QA Automation Engineer</div>
             </div>
             <p class="footer-desc">

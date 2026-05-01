@@ -356,3 +356,44 @@ document.addEventListener("touchend", (e) => {
   const dy = e.changedTouches[0].clientY - touchStartY;
   if (dx > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) closeNav();
 }, { passive: true });
+
+/* ─── Issue 5: Custom cursor (desktop hover devices only) ─── */
+(function () {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  const dot = document.getElementById("cursorDot");
+  const ring = document.getElementById("cursorRing");
+  if (!dot || !ring) return;
+
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    dot.style.left = mouseX + "px";
+    dot.style.top = mouseY + "px";
+  });
+
+  // Smooth ring follow
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.14;
+    ringY += (mouseY - ringY) * 0.14;
+    ring.style.left = ringX + "px";
+    ring.style.top = ringY + "px";
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Scale ring on interactive elements
+  document.querySelectorAll("a, button, .skill-card, .work-card, .achieve-card").forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      ring.style.width = "44px";
+      ring.style.height = "44px";
+      ring.style.borderColor = "rgba(244,114,182,0.6)";
+    });
+    el.addEventListener("mouseleave", () => {
+      ring.style.width = "28px";
+      ring.style.height = "28px";
+      ring.style.borderColor = "rgba(79,142,247,0.5)";
+    });
+  });
+})();

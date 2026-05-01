@@ -159,7 +159,7 @@ section, nav, footer { position: relative; z-index: 1; }
   display: flex; align-items: center; justify-content: center;
   transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-.loader-inner { text-align: center; }
+.loader-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
 .loader-ring {
   width: 78px; height: 78px;
   border-radius: 50%;
@@ -167,15 +167,18 @@ section, nav, footer { position: relative; z-index: 1; }
   border-top-color: var(--primary);
   border-right-color: var(--accent);
   animation: spin 1.1s linear infinite;
-  margin: 0 auto 18px;
+  margin: 0 auto 22px;
   box-shadow: var(--glow);
 }
 @keyframes spin { 100% { transform: rotate(360deg); } }
-.loader-inner h2 { font-weight: 800; font-size: 1.9rem; color: var(--text-primary); }
-.loader-inner p {
-  font-size: 0.78rem; color: var(--primary);
-  letter-spacing: 0.12em; text-transform: uppercase;
+/* Issue 2: Loader logo */
+.loader-logo { margin-bottom: 8px; }
+.loader-logo svg { width: 196px; height: auto; display: block; }
+.loader-tagline {
+  font-size: 0.74rem; color: var(--primary);
+  letter-spacing: 0.14em; text-transform: uppercase;
   margin-top: 4px; animation: fadeP 1.8s ease infinite;
+  font-family: "Poppins", sans-serif;
 }
 @keyframes fadeP { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 .loader-hidden { opacity: 0 !important; visibility: hidden !important; }
@@ -223,9 +226,26 @@ section, nav, footer { position: relative; z-index: 1; }
   font-weight: 800; font-size: 1.35rem;
   color: var(--text-primary) !important;
   letter-spacing: -0.02em; transition: 0.3s;
+  text-decoration: none;
+  display: flex; align-items: center;
 }
-.navbar-brand span { color: var(--primary); }
-.navbar-brand:hover { color: var(--primary) !important; }
+/* Issue 1: Navbar SVG logo */
+.nav-logo-svg {
+  height: 40px;
+  width: auto;
+  color: var(--text-primary);
+  transition: filter 0.3s, transform 0.3s;
+  display: block;
+}
+.navbar-brand:hover .nav-logo-svg {
+  filter: drop-shadow(0 0 8px rgba(79,142,247,0.5));
+  transform: scale(1.02);
+}
+.light-theme .nav-logo-svg text { fill: #0f172a; }
+
+/* Issue 1: Sidebar logo */
+.sidebar-brand-logo svg { width: 170px; height: auto; display: block; }
+.sidebar-brand-logo { padding: 0; }
 
 .nav-link {
   font-size: 0.8rem !important; font-weight: 500;
@@ -325,20 +345,11 @@ section, nav, footer { position: relative; z-index: 1; }
 
   /* Sidebar header branding */
   .sidebar-header {
-    padding: 28px 24px 20px;
+    padding: 22px 24px 18px;
     border-bottom: 1px solid var(--border-soft);
     flex-shrink: 0;
   }
-  .sidebar-brand {
-    font-size: 1.4rem; font-weight: 800;
-    color: var(--text-primary); letter-spacing: -0.02em;
-  }
-  .sidebar-brand span { color: var(--primary); }
-  .sidebar-tagline {
-    font-size: 0.72rem; color: var(--primary);
-    font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; margin-top: 2px;
-  }
+  .sidebar-brand-logo svg { width: 160px; height: auto; display: block; }
 
   /* Nav links fill middle */
   .navbar-nav {
@@ -989,6 +1000,14 @@ section, nav, footer { position: relative; z-index: 1; }
   border-radius: 10px; color: var(--text-primary);
   font-family: "Poppins", sans-serif; font-size: 0.88rem; outline: none; transition: all 0.3s;
 }
+/* Issue 4: Fixed textarea — no drag resize */
+.form-group textarea {
+  resize: none;
+  min-height: 140px;
+  max-height: 140px;
+  height: 140px;
+  overflow-y: auto;
+}
 .form-group input::placeholder, .form-group textarea::placeholder { color: transparent; }
 .form-group label {
   position: absolute; left: 16px; top: 14px; color: var(--text-muted);
@@ -1142,6 +1161,8 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 .footer-brand-wrap { margin-bottom: 16px; }
+/* Issue 1: Footer logo */
+.footer-brand-logo svg { width: 180px; height: auto; display: block; margin-bottom: 6px; }
 .footer-brand {
   font-size: 1.6rem; font-weight: 800;
   color: var(--text-primary); letter-spacing: -0.02em;
@@ -1374,4 +1395,181 @@ section, nav, footer { position: relative; z-index: 1; }
   .c-box h3 { font-size: 1.2rem; }
   .hero-img-wrap { width: 200px; height: 200px; }
   .hero-col-img { padding-top: 28px; padding-bottom: 40px; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ISSUE 5 — ENHANCED PROFESSIONAL PORTFOLIO UPGRADES
+════════════════════════════════════════════════════════════ */
+
+/* ── Skill cards: animated gradient border on hover ── */
+.skill-card {
+  background: var(--bg-card); border: 1px solid var(--border-soft);
+  border-radius: 14px; padding: 22px 14px; text-align: center;
+  height: 130px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: all 0.35s ease; position: relative; overflow: hidden;
+  cursor: default;
+}
+.skill-card:hover {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--primary), var(--glow), 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* ── Eyebrow badge: pill shape upgrade ── */
+.eyebrow {
+  background: var(--primary-glow);
+  padding: 4px 14px 4px 10px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+}
+
+/* ── Section heading: subtle underline glow ── */
+.section-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -6px; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), transparent);
+  opacity: 0.3;
+  border-radius: 2px;
+}
+
+/* ── Hero stats: gradient top border pulse ── */
+.stat-item::before {
+  animation: shimmer 3s ease infinite;
+}
+
+/* ── Hero badge shimmer enhancement ── */
+.hero-badge {
+  box-shadow: 0 2px 14px var(--primary-glow);
+}
+
+/* ── Achieve cards: staggered hover rotate icon ── */
+.achieve-card:nth-child(even):hover .achieve-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* ── Work cards: frosted glass look ── */
+.work-card {
+  backdrop-filter: blur(4px);
+}
+
+/* ── Timeline dot: pulsing ring ── */
+.tl-dot::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  opacity: 0.4;
+  animation: tl-pulse 2s ease infinite;
+}
+@keyframes tl-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ── Contact wrap: subtle left accent bar ── */
+.contact-wrap::after {
+  content: "";
+  position: absolute;
+  top: 20%; bottom: 20%;
+  left: 0; width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  border-radius: 0 3px 3px 0;
+}
+
+/* ── Info card: glowing corner ── */
+.info-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle at bottom right, rgba(244,114,182,0.08), transparent 70%);
+}
+
+/* ── Footer: enhanced gradient top ── */
+.footer-glow-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--primary) 30%, var(--accent) 60%, var(--accent2) 80%, transparent 100%);
+  opacity: 0.9;
+  animation: shimmer-line 4s ease infinite;
+  background-size: 200% 100%;
+}
+@keyframes shimmer-line {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ── Scroll top button: gradient ── */
+#scrollTopBtn {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 4px 20px rgba(79,142,247,0.4);
+}
+
+/* ── Custom cursor dot (desktop) ── */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  .cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 28px; height: 28px;
+    border: 1.5px solid rgba(79,142,247,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99997;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease;
+  }
+  a:hover ~ .cursor-dot, button:hover ~ .cursor-dot { background: var(--accent); width: 12px; height: 12px; }
+}
+
+/* ── Progress bar: thicker + animated glow ── */
+#progressBar {
+  height: 3px;
+  box-shadow: 0 0 12px var(--primary), 0 0 4px var(--accent);
+}
+
+/* ── Navbar: glass border shimmer on scroll ── */
+.navbar.scrolled {
+  border-bottom-color: rgba(79,142,247,0.2);
+}
+
+/* ── Section rule: glowing center ── */
+.section-rule {
+  position: relative;
+  overflow: visible;
+}
+.section-rule::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary-glow);
+}
+
+/* ── Availability badge: enhanced pulse ── */
+.avail-badge .pulse-dot,
+.hero-badge .pulse-dot,
+.footer-avail .pulse-dot {
+  box-shadow: 0 0 0 0 rgba(52,211,153,0.6);
+  animation: pulse-ring 1.8s ease infinite, fadeP 0s;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(52,211,153,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(52,211,153,0); }
+  100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
 }

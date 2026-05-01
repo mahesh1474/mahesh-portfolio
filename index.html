@@ -421,13 +421,13 @@
                   </svg>
                 </div>
                 <div class="exp-logo-divider">→ Client:</div>
-                <!-- Westpac Logo SVG — accurate brand: bold red W mark + dark grey wordmark -->
+                <!-- Westpac Logo SVG — accurate brand: bold red W mark + theme-aware wordmark -->
                 <div class="exp-logo-wrap" title="Westpac Banking Corporation">
                   <svg viewBox="0 0 160 38" xmlns="http://www.w3.org/2000/svg" class="exp-logo-svg exp-logo-westpac">
-                    <!-- Red bold W mark: three thick vertical strokes connected at base with curves -->
+                    <!-- Red bold W mark -->
                     <path d="M4,6 L12,30 L20,14 L28,30 L36,6" stroke="#DA1710" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <!-- westpac wordmark in dark charcoal -->
-                    <text x="44" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="17" fill="#3c3c3c" letter-spacing="0.2">westpac</text>
+                    <!-- wordmark: uses currentColor so CSS can override per theme -->
+                    <text x="44" y="27" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="17" fill="currentColor" letter-spacing="0.2">westpac</text>
                   </svg>
                 </div>
               </div>

@@ -165,7 +165,10 @@ if (localStorage.getItem("theme") === "light") {
 themeToggle?.addEventListener("change", function () {
   document.documentElement.classList.toggle("light-theme", this.checked);
   localStorage.setItem("theme", this.checked ? "light" : "dark");
-  // NOTE: We do NOT close the sidebar here. The sidebar stays open.
+  // Close sidebar on mobile after theme toggle
+  if (window.innerWidth < 992) {
+    setTimeout(() => closeNav(), 300);
+  }
 });
 
 // ─── KEY FIX: The .nav-theme-wrap click must NOT bubble up

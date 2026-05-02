@@ -23,6 +23,11 @@ window.addEventListener("load", function () {
     backDelay: 1800,
     showCursor: false, // we use our own cursor span
   });
+
+  /* ═══════════════════════════════════════════════════════════
+     EMAILJS CONFIG — initialised after all scripts have loaded
+  ═══════════════════════════════════════════════════════════ */
+  emailjs.init(EMAILJS_PUBLIC_KEY);
 });
 
 /* ─── PAGE LOADER ─── */
@@ -103,11 +108,9 @@ if (expBtn && projDet) {
   expBtn.addEventListener("click", () => {
     const isOpen = projDet.classList.toggle("show");
     expBtn.classList.toggle("open", isOpen);
-    const label = expBtn.querySelector("i:first-child");
     expBtn.innerHTML = isOpen
       ? '<i class="fa-solid fa-folder-open me-1"></i> Hide Projects <i class="fa-solid fa-chevron-up ms-1 expand-icon"></i>'
       : '<i class="fa-solid fa-folder-open me-1"></i> View Projects <i class="fa-solid fa-chevron-down ms-1 expand-icon"></i>';
-    expBtn.classList.toggle("open", isOpen);
   });
 }
 
@@ -207,8 +210,6 @@ if (flipCard) {
 const EMAILJS_PUBLIC_KEY  = "YfNbrehdyBUjv5iZZ";
 const EMAILJS_SERVICE_ID  = "service_z70q1gg";
 const EMAILJS_TEMPLATE_ID = "template_51vvyol";
-
-emailjs.init(EMAILJS_PUBLIC_KEY);
 
 /* ─── CONTACT FORM — validation + EmailJS ─── */
 const nameInput   = document.getElementById("name");
@@ -342,12 +343,16 @@ document.addEventListener("touchmove", (e) => {
   const dx = e.touches[0].clientX - touchStartX;
   const dy = e.touches[0].clientY - touchStartY;
   const insideSidebar = navMenu.contains(e.target);
+
   if (navMenu.classList.contains("show")) {
-    if (insideSidebar) { if (Math.abs(dx) > Math.abs(dy)) e.preventDefault(); }
-    else { e.preventDefault(); }
-  } else {
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) e.preventDefault();
+    // Sidebar is open: prevent horizontal scroll outside sidebar only
+    if (insideSidebar) {
+      if (Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+    } else {
+      e.preventDefault();
+    }
   }
+  // Sidebar closed: do NOT block touchmove — allow normal page scrolling
 }, { passive: false });
 
 document.addEventListener("touchend", (e) => {
@@ -396,4 +401,137 @@ document.addEventListener("touchend", (e) => {
       ring.style.borderColor = "rgba(79,142,247,0.5)";
     });
   });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM UPGRADE 1 — SECTION TRANSITIONS
+   Watches each .section-reveal and adds .in-view when visible
+═══════════════════════════════════════════════════════════ */
+(function () {
+  const sections = document.querySelectorAll(".section-reveal");
+  if (!sections.length) return;
+
+  const sectionObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          sectionObs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+
+  sections.forEach((s) => sectionObs.observe(s));
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM UPGRADE 2 — INTERACTIVE SKILLS VISUALIZATION
+   Filter tabs + animated bar fill on scroll-into-view
+═══════════════════════════════════════════════════════════ */
+(function () {
+  const tabs = document.querySelectorAll(".skills-tab");
+  const cards = document.querySelectorAll(".skill-viz-card");
+  const bars = document.querySelectorAll(".skill-bar-fill");
+
+  // Animate bars when scrolled into view
+  const barObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const bar = entry.target;
+          const pct = bar.dataset.pct || 0;
+          setTimeout(() => { bar.style.width = pct + "%"; }, 120);
+          barObs.unobserve(bar);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  bars.forEach((b) => barObs.observe(b));
+
+  // Tab filter
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      const cat = tab.dataset.cat;
+      cards.forEach((card) => {
+        const match = cat === "all" || card.dataset.cat === cat;
+        if (match) {
+          card.classList.remove("hidden");
+          // Re-trigger bar animation for newly visible cards
+          const bar = card.querySelector(".skill-bar-fill");
+          if (bar) {
+            bar.style.width = "0%";
+            setTimeout(() => { bar.style.width = (bar.dataset.pct || 0) + "%"; }, 80);
+          }
+        } else {
+          card.classList.add("hidden");
+        }
+      });
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   PREMIUM UPGRADE 3 — 3D TILT CARD (desktop only)
+   Gentle CSS perspective tilt on mousemove over hero image
+═══════════════════════════════════════════════════════════ */
+(function () {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  const wrapper = document.getElementById("tiltWrapper");
+  if (!wrapper) return;
+
+  const inner = wrapper.querySelector(".hero-img-wrap");
+  const shine = wrapper.querySelector(".tilt-shine");
+  if (!inner) return;
+
+  const MAX_TILT = 14; // degrees
+  let raf = null;
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+
+  wrapper.addEventListener("mousemove", (e) => {
+    const rect = wrapper.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    targetX = -dy * MAX_TILT;
+    targetY = dx * MAX_TILT;
+
+    // Move shine to cursor position
+    if (shine) {
+      const px = ((e.clientX - rect.left) / rect.width) * 100;
+      const py = ((e.clientY - rect.top) / rect.height) * 100;
+      shine.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.14), transparent 65%)`;
+    }
+
+    if (!raf) raf = requestAnimationFrame(animateTilt);
+  });
+
+  wrapper.addEventListener("mouseleave", () => {
+    targetX = 0;
+    targetY = 0;
+    if (!raf) raf = requestAnimationFrame(animateTilt);
+  });
+
+  function animateTilt() {
+    currentX += (targetX - currentX) * 0.1;
+    currentY += (targetY - currentY) * 0.1;
+
+    inner.style.transform = `rotateX(${currentX.toFixed(2)}deg) rotateY(${currentY.toFixed(2)}deg) scale3d(1.02,1.02,1.02)`;
+
+    const stillMoving = Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05;
+    if (stillMoving) {
+      raf = requestAnimationFrame(animateTilt);
+    } else {
+      inner.style.transform = `rotateX(${targetX.toFixed(2)}deg) rotateY(${targetY.toFixed(2)}deg) scale3d(1.02,1.02,1.02)`;
+      raf = null;
+    }
+  }
 })();

@@ -2420,33 +2420,116 @@ section, nav, footer { position: relative; z-index: 1; }
 }
 
 /* ════════════════════════════════════════════════════════════
-   PREMIUM UPGRADE 3 — 3D TILT CARD
+   PREMIUM UPGRADE 3 — TRUE 3D HERO IMAGE
 ════════════════════════════════════════════════════════════ */
+
+/* Perspective container */
 .tilt-wrapper {
-  display: inline-block;
-  perspective: 900px;
-  transform-style: preserve-3d;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 800px;
+  perspective-origin: 50% 45%;
 }
-.tilt-wrapper .hero-img-wrap {
+
+/* The scene: everything inside tilts together */
+.tilt-scene {
   transform-style: preserve-3d;
-  transition: transform 0.08s linear;
+  transition: transform 0.12s linear;
   will-change: transform;
+  position: relative;
 }
-/* Tilt shine overlay */
-.tilt-shine {
+
+/* The main card — lives at Z=0 */
+.tilt-scene .hero-img-wrap {
+  transform-style: preserve-3d;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Holographic shimmer layer on the image ── */
+.hero-holo {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  border-radius: 28px;
   pointer-events: none;
-  z-index: 20;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), transparent 65%);
+  z-index: 10;
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 50%;
+  background: conic-gradient(
+    from 200deg at 50% 50%,
+    rgba(79,142,247,0.0)  0deg,
+    rgba(79,142,247,0.18) 30deg,
+    rgba(244,114,182,0.18) 80deg,
+    rgba(251,191,36,0.12) 130deg,
+    rgba(79,142,247,0.0)  180deg,
+    rgba(79,142,247,0.0)  360deg
+  );
+  mix-blend-mode: screen;
 }
-.tilt-wrapper:hover .tilt-shine { opacity: 1; }
-/* On touch devices — no tilt, keep simple */
+.tilt-scene:hover .hero-holo,
+.tilt-active .hero-holo { opacity: 1; }
+
+/* ── Depth shadow that shifts with tilt ── */
+.hero-depth-shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  pointer-events: none;
+  z-index: 0;
+  background: transparent;
+  box-shadow:
+    0 60px 120px rgba(0,0,0,0.55),
+    0 24px 48px rgba(79,142,247,0.18),
+    0 0 0 1px rgba(79,142,247,0.15);
+  transition: box-shadow 0.3s ease, transform 0.12s linear;
+  transform: translateZ(-30px) scale(0.96);
+  transform-style: preserve-3d;
+}
+
+/* ── Floating badges get extra Z depth for parallax ── */
+.tilt-scene .img-exp-badge {
+  transform: translateZ(28px);
+  transition: transform 0.12s linear, box-shadow 0.3s;
+}
+.tilt-scene .img-status-badge {
+  transform: translateZ(22px);
+  transition: transform 0.12s linear, box-shadow 0.3s;
+}
+
+/* ── Glow ring at Z depth ── */
+.hero-3d-ring {
+  position: absolute;
+  inset: -18px;
+  border-radius: 42px;
+  border: 1.5px solid rgba(79,142,247,0.22);
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(-10px);
+  background: transparent;
+  animation: ring3dPulse 4s ease-in-out infinite;
+}
+.hero-3d-ring-2 {
+  position: absolute;
+  inset: -36px;
+  border-radius: 54px;
+  border: 1px solid rgba(244,114,182,0.12);
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(-20px);
+  background: transparent;
+  animation: ring3dPulse 4s ease-in-out infinite 1.4s;
+}
+@keyframes ring3dPulse {
+  0%, 100% { opacity: 0.5; transform: translateZ(-10px) scale(1); }
+  50%       { opacity: 1;   transform: translateZ(-10px) scale(1.02); }
+}
+
+/* Touch devices — static, no tilt */
 @media (hover: none) {
   .tilt-wrapper { perspective: none; }
-  .tilt-wrapper .hero-img-wrap { transform: none !important; }
+  .tilt-scene { transform: none !important; }
+  .tilt-scene .img-exp-badge,
+  .tilt-scene .img-status-badge { transform: none; }
+  .hero-3d-ring, .hero-3d-ring-2 { display: none; }
 }

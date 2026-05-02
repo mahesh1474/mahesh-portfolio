@@ -156,7 +156,16 @@
           <!-- Right: Profile Image (shown first on mobile via order) -->
           <div class="col-lg-6 order-1 order-lg-2 text-center d-flex justify-content-center hero-col-img mb-lg-0">
             <div class="tilt-wrapper" id="tiltWrapper">
+            <div class="tilt-scene" id="tiltScene">
             <div class="hero-img-wrap">
+
+              <!-- Depth rings (behind image in Z space) -->
+              <div class="hero-3d-ring"></div>
+              <div class="hero-3d-ring-2"></div>
+
+              <!-- Depth shadow plane -->
+              <div class="hero-depth-shadow"></div>
+
               <div class="flip-card" id="flipCard">
                 <div class="flip-front">
                   <img
@@ -173,7 +182,9 @@
                   />
                 </div>
               </div>
-              <div class="tilt-shine"></div>
+
+              <!-- Holographic shimmer on top of image -->
+              <div class="hero-holo"></div>
 
               <!-- Floating experience badge — top right -->
               <div class="img-exp-badge">
@@ -186,7 +197,9 @@
                 <span class="pulse-dot"></span>
                 Open to Work
               </div>
+
             </div><!-- /.hero-img-wrap -->
+            </div><!-- /.tilt-scene -->
             </div><!-- /.tilt-wrapper -->
           </div>
           <div class="col-lg-6 order-2 order-lg-1">

@@ -477,60 +477,94 @@ document.addEventListener("touchend", (e) => {
 })();
 
 /* ═══════════════════════════════════════════════════════════
-   PREMIUM UPGRADE 3 — 3D TILT CARD (desktop only)
-   Gentle CSS perspective tilt on mousemove over hero image
+   PREMIUM UPGRADE 3 — TRUE 3D HERO IMAGE (desktop only)
+   - tilt-scene rotates on all axes as mouse moves
+   - floating badges get extra Z parallax
+   - holographic shimmer follows cursor angle
+   - smooth lerp so motion feels spring-like
 ═══════════════════════════════════════════════════════════ */
 (function () {
   if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
   const wrapper = document.getElementById("tiltWrapper");
-  if (!wrapper) return;
+  const scene   = document.getElementById("tiltScene");
+  const holo    = scene?.querySelector(".hero-holo");
+  const shadow  = scene?.querySelector(".hero-depth-shadow");
+  if (!wrapper || !scene) return;
 
-  const inner = wrapper.querySelector(".hero-img-wrap");
-  const shine = wrapper.querySelector(".tilt-shine");
-  if (!inner) return;
-
-  const MAX_TILT = 14; // degrees
-  let raf = null;
+  const MAX_TILT = 16;
   let targetX = 0, targetY = 0;
   let currentX = 0, currentY = 0;
+  let isHovering = false;
+  let raf = null;
+
+  wrapper.addEventListener("mouseenter", () => { isHovering = true; });
+  wrapper.addEventListener("mouseleave", () => {
+    isHovering = false;
+    targetX = 0;
+    targetY = 0;
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
 
   wrapper.addEventListener("mousemove", (e) => {
     const rect = wrapper.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    targetX = -dy * MAX_TILT;
-    targetY = dx * MAX_TILT;
+    const cx = rect.left + rect.width  / 2;
+    const cy = rect.top  + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width  / 2); // -1 … 1
+    const dy = (e.clientY - cy) / (rect.height / 2); // -1 … 1
 
-    // Move shine to cursor position
-    if (shine) {
-      const px = ((e.clientX - rect.left) / rect.width) * 100;
-      const py = ((e.clientY - rect.top) / rect.height) * 100;
-      shine.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.14), transparent 65%)`;
+    targetX = -dy * MAX_TILT;
+    targetY =  dx * MAX_TILT;
+
+    // Holographic shimmer: shift gradient angle with mouse
+    if (holo) {
+      const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 200;
+      holo.style.background = `conic-gradient(
+        from ${angle}deg at ${50 + dx * 12}% ${50 + dy * 12}%,
+        rgba(79,142,247,0.0)   0deg,
+        rgba(79,142,247,0.22)  35deg,
+        rgba(244,114,182,0.2)  85deg,
+        rgba(251,191,36,0.14)  135deg,
+        rgba(52,211,153,0.1)   175deg,
+        rgba(79,142,247,0.0)   210deg,
+        rgba(79,142,247,0.0)   360deg
+      )`;
     }
 
-    if (!raf) raf = requestAnimationFrame(animateTilt);
+    if (!raf) raf = requestAnimationFrame(tick);
   });
 
-  wrapper.addEventListener("mouseleave", () => {
-    targetX = 0;
-    targetY = 0;
-    if (!raf) raf = requestAnimationFrame(animateTilt);
-  });
+  function tick() {
+    const lerpSpeed = isHovering ? 0.1 : 0.06;
+    currentX += (targetX - currentX) * lerpSpeed;
+    currentY += (targetY - currentY) * lerpSpeed;
 
-  function animateTilt() {
-    currentX += (targetX - currentX) * 0.1;
-    currentY += (targetY - currentY) * 0.1;
+    // Main scene rotation
+    scene.style.transform =
+      `rotateX(${currentX.toFixed(3)}deg) rotateY(${currentY.toFixed(3)}deg)`;
 
-    inner.style.transform = `rotateX(${currentX.toFixed(2)}deg) rotateY(${currentY.toFixed(2)}deg) scale3d(1.02,1.02,1.02)`;
+    // Shadow shifts opposite to tilt — makes depth convincing
+    if (shadow) {
+      const sx = -currentY * 1.8;
+      const sy =  currentX * 1.8;
+      shadow.style.transform =
+        `translateZ(-30px) translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) scale(0.94)`;
+      shadow.style.boxShadow = `
+        ${sx.toFixed(1)}px ${(40 + sy).toFixed(1)}px 100px rgba(0,0,0,0.55),
+        0 20px 60px rgba(79,142,247,${(0.12 + Math.abs(currentX + currentY) * 0.004).toFixed(3)}),
+        0 0 0 1px rgba(79,142,247,0.18)
+      `;
+    }
 
-    const stillMoving = Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05;
+    const stillMoving =
+      Math.abs(targetX - currentX) > 0.02 ||
+      Math.abs(targetY - currentY) > 0.02;
+
     if (stillMoving) {
-      raf = requestAnimationFrame(animateTilt);
+      raf = requestAnimationFrame(tick);
     } else {
-      inner.style.transform = `rotateX(${targetX.toFixed(2)}deg) rotateY(${targetY.toFixed(2)}deg) scale3d(1.02,1.02,1.02)`;
+      scene.style.transform =
+        `rotateX(${targetX.toFixed(3)}deg) rotateY(${targetY.toFixed(3)}deg)`;
       raf = null;
     }
   }

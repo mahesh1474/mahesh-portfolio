@@ -29,6 +29,14 @@
   --noise-opacity: 0.025;
   --card-radius: 20px;
   --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Extended design tokens (used throughout) */
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.08);
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --gradient-primary: linear-gradient(135deg, #4f8ef7, #f472b6);
+  --gradient-gold: linear-gradient(135deg, #fbbf24, #f97316);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -58,6 +66,9 @@
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.14);
   --glow: 0 0 30px rgba(29, 78, 216, 0.18);
+
+  --glass-bg: rgba(255,255,255,0.7);
+  --glass-border: rgba(29,78,216,0.12);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -447,7 +458,7 @@ section, nav, footer { position: relative; z-index: 1; }
 /* ════════════════════════════════════════════════════════════
    8. SHARED SECTION UTILITIES
 ════════════════════════════════════════════════════════════ */
-.section-padding { padding: 100px 0; }
+.section-padding { padding: 110px 0; }
 .section-alt { background: var(--bg2); }
 
 .eyebrow {
@@ -1775,19 +1786,7 @@ section, nav, footer { position: relative; z-index: 1; }
    ISSUE 3 — MAJOR CREATIVE ENHANCEMENT OVERHAUL
 ════════════════════════════════════════════════════════════ */
 
-/* ── Root: additional design tokens ── */
-:root {
-  --glass-bg: rgba(255,255,255,0.03);
-  --glass-border: rgba(255,255,255,0.08);
-  --radius-xl: 24px;
-  --radius-lg: 16px;
-  --gradient-primary: linear-gradient(135deg, #4f8ef7, #f472b6);
-  --gradient-gold: linear-gradient(135deg, #fbbf24, #f97316);
-}
-.light-theme {
-  --glass-bg: rgba(255,255,255,0.7);
-  --glass-border: rgba(29,78,216,0.12);
-}
+/* ── Root: additional design tokens are defined in the primary :root block at the top of this file ── */
 
 /* ── Animated gradient border on cards (via pseudo-element) ── */
 .about-card,
@@ -1867,6 +1866,7 @@ section, nav, footer { position: relative; z-index: 1; }
   border-radius: 50%;
   background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
 }
 .section-alt::after {
   content: "";
@@ -1876,6 +1876,7 @@ section, nav, footer { position: relative; z-index: 1; }
   border-radius: 50%;
   background: radial-gradient(circle, rgba(244,114,182,0.05) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Tech tags: elevated pill style ── */
@@ -2183,8 +2184,7 @@ section, nav, footer { position: relative; z-index: 1; }
   background-clip: text;
 }
 
-/* ── Section padding: more breathing room ── */
-.section-padding { padding: 110px 0; }
+/* ── Section padding: breathing room (110px defined in main rule) ── */
 
 /* ── Card radius: consistent ── */
 .about-card, .exp-card, .work-card, .achieve-card, .skill-card, .contact-wrap, .info-card {
@@ -2532,4 +2532,131 @@ section, nav, footer { position: relative; z-index: 1; }
   .tilt-scene .img-exp-badge,
   .tilt-scene .img-status-badge { transform: none; }
   .hero-3d-ring, .hero-3d-ring-2 { display: none; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ACCESSIBILITY IMPROVEMENTS
+════════════════════════════════════════════════════════════ */
+
+/* ── Focus-visible: keyboard navigation outlines ── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Interactive cards get focus ring too */
+.skill-viz-card:focus-visible,
+.work-card:focus-visible,
+.achieve-card:focus-visible,
+.h-box:focus-visible,
+.cert-card:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-color: var(--primary);
+  box-shadow: var(--glow);
+}
+
+/* Skill filter tabs keyboard focus */
+.skills-tab:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-color: var(--primary);
+}
+
+/* Nav links */
+.nav-link:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+  color: var(--primary) !important;
+}
+
+/* Buttons */
+.btn-primary-c:focus-visible,
+.btn-outline-c:focus-visible,
+.btn-whatsapp-c:focus-visible,
+.send-btn:focus-visible,
+.expand-btn:focus-visible,
+.work-btn:focus-visible,
+.footer-resume-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Form inputs */
+.form-group input:focus-visible,
+.form-group textarea:focus-visible {
+  outline: none; /* already uses box-shadow focus ring */
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Scroll-to-top */
+#scrollTopBtn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Social / icon links */
+.footer-social a:focus-visible,
+.sidebar-footer a:focus-visible,
+.social-row a:focus-visible,
+.contact-social-links a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+
+/* ── Skip-to-content link (screen readers + keyboard users) ── */
+.skip-to-content {
+  position: fixed;
+  top: -100%;
+  left: 16px;
+  z-index: 99999;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 0 0 8px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+  font-family: "Poppins", sans-serif;
+}
+.skip-to-content:focus {
+  top: 0;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── Reduced-motion: disable all animations for users who prefer it ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .orb { animation: none !important; }
+  .hero-badge::after { animation: none !important; }
+  .flip-card { transition: none !important; }
+  .tilt-scene { transform: none !important; }
+  #pageLoader { transition: none !important; }
+  .skill-bar-fill { transition: none !important; }
+  .section-reveal { opacity: 1 !important; transform: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* ── Work card: improve contrast of muted title suffix in light mode ── */
+.light-theme .work-card h5 span[style*="text-muted"] {
+  color: #555555 !important;
+}
+
+/* ── Navbar: add role=navigation landmark style indicator ── */
+.navbar[role="navigation"] {
+  /* already styled; this comment anchors the landmark */
 }

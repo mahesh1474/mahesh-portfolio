@@ -3,12 +3,20 @@
    FIX: Theme toggle inside sidebar does NOT close sidebar
 ═══════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════════
+   EMAILJS CONFIG — defined at top so they are available
+   everywhere in this file (fixes init-before-declaration bug)
+═══════════════════════════════════════════════════════════ */
+const EMAILJS_PUBLIC_KEY  = "YfNbrehdyBUjv5iZZ";
+const EMAILJS_SERVICE_ID  = "service_z70q1gg";
+const EMAILJS_TEMPLATE_ID = "template_51vvyol";
+
 /* ─── AOS ─── */
 document.addEventListener("DOMContentLoaded", function () {
   AOS.init({ duration: 800, once: true, offset: 60, easing: "ease-out-quart" });
 });
 
-/* ─── TYPED.JS ─── */
+/* ─── TYPED.JS + EMAILJS INIT ─── */
 window.addEventListener("load", function () {
   new Typed("#typing", {
     strings: [
@@ -21,12 +29,10 @@ window.addEventListener("load", function () {
     backSpeed: 30,
     loop: true,
     backDelay: 1800,
-    showCursor: false, // we use our own cursor span
+    showCursor: false,
   });
 
-  /* ═══════════════════════════════════════════════════════════
-     EMAILJS CONFIG — initialised after all scripts have loaded
-  ═══════════════════════════════════════════════════════════ */
+  /* Initialise EmailJS after all scripts have loaded */
   emailjs.init(EMAILJS_PUBLIC_KEY);
 });
 
@@ -203,13 +209,6 @@ if (flipCard) {
     }
   });
 }
-
-/* ═══════════════════════════════════════════════════════════
-   EMAILJS CONFIG
-═══════════════════════════════════════════════════════════ */
-const EMAILJS_PUBLIC_KEY  = "YfNbrehdyBUjv5iZZ";
-const EMAILJS_SERVICE_ID  = "service_z70q1gg";
-const EMAILJS_TEMPLATE_ID = "template_51vvyol";
 
 /* ─── CONTACT FORM — validation + EmailJS ─── */
 const nameInput   = document.getElementById("name");
@@ -451,17 +450,19 @@ document.addEventListener("touchend", (e) => {
   );
   bars.forEach((b) => barObs.observe(b));
 
-  // Tab filter
+  // Tab filter — with aria-pressed and keyboard support
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("active"));
+      tabs.forEach((t) => { t.classList.remove("active"); t.setAttribute("aria-pressed", "false"); });
       tab.classList.add("active");
+      tab.setAttribute("aria-pressed", "true");
 
       const cat = tab.dataset.cat;
       cards.forEach((card) => {
         const match = cat === "all" || card.dataset.cat === cat;
         if (match) {
           card.classList.remove("hidden");
+          card.removeAttribute("aria-hidden");
           // Re-trigger bar animation for newly visible cards
           const bar = card.querySelector(".skill-bar-fill");
           if (bar) {
@@ -470,8 +471,17 @@ document.addEventListener("touchend", (e) => {
           }
         } else {
           card.classList.add("hidden");
+          card.setAttribute("aria-hidden", "true");
         }
       });
+    });
+
+    // Arrow-key navigation between tabs
+    tab.addEventListener("keydown", (e) => {
+      const tabList = Array.from(tabs);
+      const idx = tabList.indexOf(tab);
+      if (e.key === "ArrowRight") { e.preventDefault(); tabList[(idx + 1) % tabList.length].focus(); }
+      if (e.key === "ArrowLeft")  { e.preventDefault(); tabList[(idx - 1 + tabList.length) % tabList.length].focus(); }
     });
   });
 })();

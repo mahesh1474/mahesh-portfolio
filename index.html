@@ -127,6 +127,7 @@
             <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
             <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
             <li class="nav-item"><a class="nav-link" href="#work">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#certifications">Certs</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
           </ul>
 
@@ -146,7 +147,7 @@
           <!-- FIX 1: Sidebar footer with social links -->
           <div class="sidebar-footer d-lg-none">
             <a href="#" title="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://github.com/mahesh1474" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://github.com/mahesh1474" title="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
             <a href="https://wa.me/919640200490" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
@@ -164,7 +165,8 @@
      SECTION 1 — HERO
     ═══════════════════════════════════════════════ -->
     <section class="hero" id="home" aria-label="Hero introduction" role="banner">
-      <!-- Floating decorative elements -->
+      <!-- Interactive particle canvas -->
+      <canvas id="heroParticles" aria-hidden="true"></canvas>
       <div class="container">
         <div class="row align-items-center">
           <!-- Right: Profile Image (shown first on mobile via order) -->
@@ -221,8 +223,9 @@
               <span class="pulse-dot"></span> Open to Opportunities
             </div>
             <h1>
-              Hello, I'm
-              <span class="name">Mahesh</span>
+              <span class="hero-word" style="--wi:0">Hello,</span>
+              <span class="hero-word" style="--wi:1">I'm</span>
+              <span class="name hero-word" style="--wi:2">Mahesh</span>
             </h1>
             <p class="hero-subtitle"><span id="typing"></span></p>
             <p class="hero-desc">
@@ -278,7 +281,7 @@
     <!-- ═══════════════════════════════════════════════
      SECTION 2 — ABOUT
     ═══════════════════════════════════════════════ -->
-    <section id="about" class="section-padding section-alt reveal" data-aos="fade-up" aria-label="About me">
+    <section id="about" class="section-padding section-alt section-reveal" data-aos="fade-up" aria-label="About me">
       <div class="container">
         <div class="text-center mb-5">
           <div class="eyebrow">Who I Am</div>
@@ -334,7 +337,7 @@
     <!-- ═══════════════════════════════════════════════
      SECTION 3 — SKILLS (Interactive Visualization)
     ═══════════════════════════════════════════════ -->
-    <section id="skills" class="section-padding" data-aos="fade-up">
+    <section id="skills" class="section-padding section-reveal" data-aos="fade-up">
       <div class="container">
         <div class="text-center mb-5">
           <div class="eyebrow">What I Use</div>
@@ -473,7 +476,7 @@
               </div>
               <span class="skill-viz-pct">78%</span>
             </div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78" style="--bar-color: #02303a"></div></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78" style="--bar-color: #06b6d4"></div></div>
           </div>
 
         </div>
@@ -536,7 +539,10 @@
                 </div>
               </div>
 
-              <button class="expand-btn">View Projects ▼</button>
+              <button class="expand-btn">
+                <i class="fa-solid fa-folder-open me-1"></i> View Projects
+                <i class="fa-solid fa-chevron-down ms-1 expand-icon"></i>
+              </button>
 
               <div class="proj-details">
                 <div class="proj-inner">
@@ -670,6 +676,93 @@
               </a>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+     SECTION 5.5 — CERTIFICATIONS
+    ═══════════════════════════════════════════════ -->
+    <section id="certifications" class="section-padding section-alt section-reveal" data-aos="fade-up" aria-label="Certifications">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="eyebrow">Credentials</div>
+          <h2 class="section-heading">Certifi<span class="gradient-text">cations</span></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <div class="cert-grid">
+
+          <div class="cert-card" data-aos="fade-up" data-aos-delay="50">
+            <div class="cert-badge-wrap">
+              <div class="cert-icon-ring">
+                <i class="fa-solid fa-certificate"></i>
+              </div>
+            </div>
+            <div class="cert-body">
+              <div class="cert-issuer">ISTQB</div>
+              <h5 class="cert-title">Certified Tester Foundation Level</h5>
+              <div class="cert-meta">
+                <span class="cert-year"><i class="fa-solid fa-calendar-check"></i> 2022</span>
+                <span class="cert-status verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+              </div>
+            </div>
+            <div class="cert-shimmer"></div>
+          </div>
+
+          <div class="cert-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="cert-badge-wrap">
+              <div class="cert-icon-ring" style="--cert-color: #007CC2;">
+                <svg viewBox="0 0 32 32" fill="none" width="22" height="22">
+                  <text x="0" y="24" font-family="Arial" font-weight="900" font-size="18" fill="#007CC2">i</text>
+                </svg>
+              </div>
+            </div>
+            <div class="cert-body">
+              <div class="cert-issuer">Infosys</div>
+              <h5 class="cert-title">Selenium WebDriver &amp; Automation Expert</h5>
+              <div class="cert-meta">
+                <span class="cert-year"><i class="fa-solid fa-calendar-check"></i> 2022</span>
+                <span class="cert-status verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+              </div>
+            </div>
+            <div class="cert-shimmer"></div>
+          </div>
+
+          <div class="cert-card" data-aos="fade-up" data-aos-delay="150">
+            <div class="cert-badge-wrap">
+              <div class="cert-icon-ring" style="--cert-color: #2ead33;">
+                <i class="fa-solid fa-masks-theater" style="color:#2ead33;font-size:1.1rem;"></i>
+              </div>
+            </div>
+            <div class="cert-body">
+              <div class="cert-issuer">Infosys</div>
+              <h5 class="cert-title">Playwright Test Automation Professional</h5>
+              <div class="cert-meta">
+                <span class="cert-year"><i class="fa-solid fa-calendar-check"></i> 2023</span>
+                <span class="cert-status verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+              </div>
+            </div>
+            <div class="cert-shimmer"></div>
+          </div>
+
+          <div class="cert-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="cert-badge-wrap">
+              <div class="cert-icon-ring" style="--cert-color: #f89820;">
+                <i class="fa-brands fa-java" style="color:#f89820;font-size:1.2rem;"></i>
+              </div>
+            </div>
+            <div class="cert-body">
+              <div class="cert-issuer">Oracle</div>
+              <h5 class="cert-title">Java SE 11 Developer Certified</h5>
+              <div class="cert-meta">
+                <span class="cert-year"><i class="fa-solid fa-calendar-check"></i> 2023</span>
+                <span class="cert-status verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+              </div>
+            </div>
+            <div class="cert-shimmer"></div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -853,7 +946,7 @@
             </p>
             <div class="footer-social">
               <a href="#" title="LinkedIn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-              <a href="https://github.com/mahesh1474" title="GitHub" aria-label="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://github.com/mahesh1474" title="GitHub" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
               <a href="https://wa.me/919640200490" target="_blank" title="WhatsApp" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
           </div>

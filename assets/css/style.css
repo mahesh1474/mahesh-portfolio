@@ -1490,12 +1490,6 @@ section, nav, footer { position: relative; z-index: 1; }
 #scrollTopBtn:hover { transform: translateY(-3px) scale(1.05); }
 
 /* ════════════════════════════════════════════════════════════
-   19. REVEAL ANIMATION
-════════════════════════════════════════════════════════════ */
-.reveal { opacity: 0; transform: translateY(28px); transition: all 0.7s ease; }
-.reveal.active { opacity: 1; transform: translateY(0); }
-
-/* ════════════════════════════════════════════════════════════
    20. CUSTOM SCROLLBAR
 ════════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 5px; }
@@ -2518,11 +2512,15 @@ section, nav, footer { position: relative; z-index: 1; }
   z-index: 0;
   transform: translateZ(-20px);
   background: transparent;
-  animation: ring3dPulse 4s ease-in-out infinite 1.4s;
+  animation: ring3dPulse2 4s ease-in-out infinite 1.4s;
 }
 @keyframes ring3dPulse {
   0%, 100% { opacity: 0.5; transform: translateZ(-10px) scale(1); }
   50%       { opacity: 1;   transform: translateZ(-10px) scale(1.02); }
+}
+@keyframes ring3dPulse2 {
+  0%, 100% { opacity: 0.4; transform: translateZ(-20px) scale(1); }
+  50%       { opacity: 0.9; transform: translateZ(-20px) scale(1.02); }
 }
 
 /* Touch devices — static, no tilt */
@@ -2648,7 +2646,6 @@ section, nav, footer { position: relative; z-index: 1; }
   #pageLoader { transition: none !important; }
   .skill-bar-fill { transition: none !important; }
   .section-reveal { opacity: 1 !important; transform: none !important; }
-  .reveal { opacity: 1 !important; transform: none !important; }
 }
 
 /* ── Work card: improve contrast of muted title suffix in light mode ── */
@@ -2659,4 +2656,287 @@ section, nav, footer { position: relative; z-index: 1; }
 /* ── Navbar: add role=navigation landmark style indicator ── */
 .navbar[role="navigation"] {
   /* already styled; this comment anchors the landmark */
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 1 — HERO PARTICLE CANVAS
+════════════════════════════════════════════════════════════ */
+#heroParticles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+}
+.hero .container { position: relative; z-index: 1; }
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 2 — STAGGERED HERO WORD REVEAL
+════════════════════════════════════════════════════════════ */
+.hero h1 {
+  overflow: visible;
+}
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(32px);
+  animation: wordReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(0.1s + var(--wi) * 0.13s);
+}
+@keyframes wordReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+/* "Mahesh" keeps its gradient as a block on new line */
+.hero h1 .name.hero-word {
+  display: block;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 3 — MAGNETIC BUTTON EFFECT
+   (JS handles the translate; CSS handles transition smoothing)
+════════════════════════════════════════════════════════════ */
+.btn-primary-c,
+.btn-outline-c,
+.btn-whatsapp-c,
+.send-btn {
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+              background 0.3s ease,
+              box-shadow 0.3s ease,
+              color 0.3s ease;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 4 — CURSOR SPARKLE TRAIL
+════════════════════════════════════════════════════════════ */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: sparkleFade 0.6s ease forwards;
+}
+@keyframes sparkleFade {
+  0%   { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0;   transform: translate(-50%, -50%) scale(0) translateY(-12px); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 5 — CERTIFICATIONS SECTION
+════════════════════════════════════════════════════════════ */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+@media (max-width: 640px) {
+  .cert-grid { grid-template-columns: 1fr; }
+}
+
+.cert-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 20px;
+  padding: 26px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: default;
+}
+.cert-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary-glow), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.cert-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--glow), var(--shadow-hover);
+}
+.cert-card:hover::before { opacity: 1; }
+
+/* Shimmer sweep on hover */
+.cert-shimmer {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transition: left 0s;
+  pointer-events: none;
+}
+.cert-card:hover .cert-shimmer {
+  left: 160%;
+  transition: left 0.55s ease;
+}
+
+.cert-badge-wrap {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.cert-icon-ring {
+  width: 54px; height: 54px;
+  border-radius: 16px;
+  border: 1.5px solid var(--cert-color, var(--primary));
+  background: rgba(79, 142, 247, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: var(--cert-color, var(--primary));
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.cert-icon-ring::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  border: 1px solid var(--cert-color, var(--primary));
+  opacity: 0.2;
+  transition: opacity 0.3s;
+}
+.cert-card:hover .cert-icon-ring {
+  transform: rotate(-8deg) scale(1.1);
+  background: rgba(79, 142, 247, 0.15);
+  box-shadow: 0 0 20px rgba(79, 142, 247, 0.3);
+}
+.cert-card:hover .cert-icon-ring::after { opacity: 0.5; }
+
+.cert-body {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+.cert-issuer {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+.cert-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+.cert-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cert-year {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.cert-year i { color: var(--primary); }
+.cert-status {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.04em;
+}
+.cert-status.verified {
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--green);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+/* Light theme cert cards */
+.light-theme .cert-card {
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+.light-theme .cert-icon-ring {
+  background: rgba(29, 78, 216, 0.06);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 6 — SMOOTH COUNTER EASING
+   (overrides the existing linear increment in JS)
+════════════════════════════════════════════════════════════ */
+/* CSS-only: counter numbers get a subtle pop on completion */
+.counter.done {
+  animation: counterPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes counterPop {
+  0%   { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 7 — WORK CARD CORNER ACCENT UPGRADE
+════════════════════════════════════════════════════════════ */
+.corner-accent {
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: linear-gradient(225deg, var(--primary-glow) 0%, transparent 70%);
+  border-radius: 0 var(--radius-xl) 0 60px;
+  transition: all 0.35s ease;
+}
+.work-card:hover .corner-accent {
+  width: 90px; height: 90px;
+  background: linear-gradient(225deg, rgba(79,142,247,0.18) 0%, transparent 70%);
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 8 — ACHIEVEMENT CARD NUMBER GLOW
+════════════════════════════════════════════════════════════ */
+.achieve-card h4 {
+  position: relative;
+  transition: filter 0.3s ease;
+}
+.achieve-card:hover h4 {
+  filter: drop-shadow(0 0 12px rgba(79,142,247,0.5));
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 9 — FLOATING LABEL ON SKILL BARS
+════════════════════════════════════════════════════════════ */
+.skill-bar-track {
+  position: relative;
+}
+/* Glow pulse on the dot at bar end */
+.skill-bar-fill.animated::after {
+  animation: barDotPulse 1.5s ease-in-out infinite 1.2s;
+}
+@keyframes barDotPulse {
+  0%, 100% { box-shadow: 0 0 6px currentColor; opacity: 0.8; }
+  50%       { box-shadow: 0 0 16px currentColor; opacity: 1; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 10 — SECTION EYEBROW DECORATION
+════════════════════════════════════════════════════════════ */
+.eyebrow::after {
+  content: ""; display: inline-block;
+  width: 22px; height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-left: 8px;
 }

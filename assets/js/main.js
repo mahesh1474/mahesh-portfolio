@@ -76,13 +76,6 @@ window.addEventListener("scroll", () => {
   });
 });
 
-/* ─── REVEAL on scroll ─── */
-const revObs = new IntersectionObserver(
-  (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("active"); }),
-  { threshold: 0.12 }
-);
-document.querySelectorAll(".reveal").forEach((r) => revObs.observe(r));
-
 /* ─── ANIMATED COUNTERS ─── */
 const cntObs = new IntersectionObserver(
   (entries) => {
@@ -388,7 +381,7 @@ document.addEventListener("touchend", (e) => {
   animateRing();
 
   // Scale ring on interactive elements
-  document.querySelectorAll("a, button, .skill-card, .work-card, .achieve-card").forEach((el) => {
+  document.querySelectorAll("a, button, .skill-viz-card, .work-card, .achieve-card").forEach((el) => {
     el.addEventListener("mouseenter", () => {
       ring.style.width = "44px";
       ring.style.height = "44px";
@@ -578,4 +571,210 @@ document.addEventListener("touchend", (e) => {
       raf = null;
     }
   }
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 1 — HERO PARTICLE FIELD
+   Responsive dot grid that ripples toward mouse cursor
+═══════════════════════════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById("heroParticles");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  let W, H, particles = [];
+  let mouseX = -9999, mouseY = -9999;
+  const PARTICLE_COUNT = 80;
+  const CONNECT_DIST = 120;
+  const REPEL_DIST = 90;
+
+  function resize() {
+    const hero = canvas.parentElement;
+    W = canvas.width = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+  }
+
+  function spawn() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        ox: 0, oy: 0,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const isLight = document.documentElement.classList.contains("light-theme");
+    const dotColor = isLight ? "rgba(29,78,216," : "rgba(79,142,247,";
+
+    particles.forEach(p => {
+      // Drift
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+
+      // Mouse repel
+      const dx = p.x - mouseX;
+      const dy = p.y - mouseY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < REPEL_DIST) {
+        const force = (REPEL_DIST - dist) / REPEL_DIST;
+        p.ox = dx / dist * force * 18;
+        p.oy = dy / dist * force * 18;
+      } else {
+        p.ox *= 0.88;
+        p.oy *= 0.88;
+      }
+
+      const rx = p.x + p.ox;
+      const ry = p.y + p.oy;
+
+      // Draw dot
+      ctx.beginPath();
+      ctx.arc(rx, ry, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = dotColor + "0.7)";
+      ctx.fill();
+
+      // Connect nearby
+      particles.forEach(q => {
+        const qx = q.x + q.ox;
+        const qy = q.y + q.oy;
+        const d = Math.sqrt((rx - qx) ** 2 + (ry - qy) ** 2);
+        if (d < CONNECT_DIST) {
+          ctx.beginPath();
+          ctx.moveTo(rx, ry);
+          ctx.lineTo(qx, qy);
+          ctx.strokeStyle = dotColor + (0.18 * (1 - d / CONNECT_DIST)).toFixed(3) + ")";
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      });
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  const hero = document.querySelector(".hero");
+  if (hero) {
+    hero.addEventListener("mousemove", e => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    });
+    hero.addEventListener("mouseleave", () => { mouseX = -9999; mouseY = -9999; });
+  }
+
+  window.addEventListener("resize", () => { resize(); spawn(); });
+  resize(); spawn(); draw();
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 2 — MAGNETIC BUTTON EFFECT
+   CTA buttons subtly pull toward cursor on hover
+═══════════════════════════════════════════════════════════ */
+(function () {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  document.querySelectorAll(".btn-primary-c, .btn-outline-c, .btn-whatsapp-c").forEach(btn => {
+    btn.addEventListener("mousemove", e => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      btn.style.transform = `translate(${dx * 7}px, ${dy * 5}px)`;
+    });
+    btn.addEventListener("mouseleave", () => {
+      btn.style.transform = "";
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 3 — CURSOR SPARKLE TRAIL
+   Tiny fading sparkles follow the cursor (desktop only)
+═══════════════════════════════════════════════════════════ */
+(function () {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+  const colors = ["#4f8ef7", "#f472b6", "#fbbf24", "#34d399", "#a78bfa"];
+  let lastTime = 0;
+  const INTERVAL = 55; // ms between sparkles
+
+  document.addEventListener("mousemove", e => {
+    const now = Date.now();
+    if (now - lastTime < INTERVAL) return;
+    lastTime = now;
+
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    const size = Math.random() * 6 + 3;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    s.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;width:${size}px;height:${size}px;background:${color};`;
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 620);
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 4 — EASED COUNTER ANIMATION
+   Replaces linear increment with easeOutExpo curve
+   + adds .done class for CSS pop on completion
+═══════════════════════════════════════════════════════════ */
+(function () {
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.target;
+      const duration = 1600;
+      const start = performance.now();
+      el.classList.remove("done");
+
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOutExpo(progress);
+        el.innerText = Math.ceil(eased * target);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.innerText = target + "+";
+          el.classList.add("done");
+        }
+      }
+      requestAnimationFrame(step);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll(".counter").forEach(c => obs.observe(c));
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   CREATIVE ENHANCEMENT 5 — SKILL BAR PULSE DOT
+   Adds .animated class after bar fills so CSS pulse kicks in
+═══════════════════════════════════════════════════════════ */
+(function () {
+  document.querySelectorAll(".skill-bar-fill").forEach(bar => {
+    const mo = new MutationObserver(() => {
+      const w = parseFloat(bar.style.width);
+      if (w > 0) {
+        setTimeout(() => bar.classList.add("animated"), 1200);
+        mo.disconnect();
+      }
+    });
+    mo.observe(bar, { attributeFilter: ["style"] });
+  });
 })();
